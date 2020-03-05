@@ -9,7 +9,7 @@ import com.googlecode.lanterna.terminal.Terminal
 
 object Lanterna {
     private val terminal: Terminal = DefaultTerminalFactory().createTerminal()
-    private val screen: TerminalScreen = TerminalScreen(terminal)
+    private val screen  = TerminalScreen(terminal)
     private val textGraphics: TextGraphics = screen.newTextGraphics()
 
     init {

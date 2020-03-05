@@ -1,9 +1,10 @@
-package ru.spbau.roguelike.ui
+package ru.spbau.roguelike.controller
 
+import ru.spbau.roguelike.model.field.Field
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
-import java.lang.reflect.Field
 
-class ConsoleUIOutput {
+class ConsoleDisplayController {
+    private val consoleDisplayController = ConsoleDisplayController()
 
     fun refreshGameField(field: Field) {
         TODO("Not implemented")
@@ -13,9 +14,7 @@ class ConsoleUIOutput {
         TODO("Not implemented")
     }
 
-}
-
-fun main() {
-    Lanterna.drawSomething()
-    println(Lanterna.readInput())
+    fun onGameIsFinished() {
+        TODO("Not implemented")
+    }
 }
