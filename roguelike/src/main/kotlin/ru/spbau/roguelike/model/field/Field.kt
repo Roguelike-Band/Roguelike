@@ -1,9 +1,16 @@
 package ru.spbau.roguelike.model.field
 
 class Field(
-    val height: Int,
-    val width: Int
+    private val field: Array<Array<FieldObject>>
 ) {
-    private val field: Array<Array<FieldObject>> = TODO("Not implemented")
+    val height = field.size
+    val width = field[0].size
 
+    operator fun get(xCoordinate: Int, yCoordinate: Int): FieldObject {
+        return field[xCoordinate][yCoordinate]
+    }
+
+    operator fun set(xCoordinate: Int, yCoordinate: Int, newObject: FieldObject) {
+        field[xCoordinate][yCoordinate] = newObject
+    }
 }
