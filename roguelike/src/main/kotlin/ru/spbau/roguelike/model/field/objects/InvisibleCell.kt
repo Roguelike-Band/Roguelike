@@ -3,10 +3,10 @@ package ru.spbau.roguelike.model.field.objects
 import ru.spbau.roguelike.model.field.FieldObject
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
-object EmptyCell : FieldObject() {
+object InvisibleCell : FieldObject() {
     override val symbolOnBoard: Char = ' '
 
     override fun onStep(character: Character) {
-        TODO("Not implemented")
+        TODO("not implemented")
     }
 }
