@@ -1,8 +1,13 @@
 package ru.spbau.roguelike.model.logic
 
-class AfterTurnLogic {
+import ru.spbau.roguelike.controller.DisplayController
+
+class AfterTurnLogic(
+    private val gameInfo: GameInfo,
+    private val displayController: DisplayController
+) {
     fun refreshPlayerUI() {
-        TODO("Not implemented")
+        displayController.refreshGameField(gameInfo.player.fieldInfo)
     }
 
     fun generateNewMonsters() {

@@ -1,5 +1,6 @@
 package ru.spbau.roguelike.model.field.objects.characters
 
-abstract class Monster : Character() {
-    abstract fun doTurn()
+import ru.spbau.roguelike.model.field.FieldInfo
+
+abstract class Monster(fieldInfo: FieldInfo) : Character(fieldInfo) {
 }
