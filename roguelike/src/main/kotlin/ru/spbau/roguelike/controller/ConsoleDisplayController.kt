@@ -2,19 +2,21 @@ package ru.spbau.roguelike.controller
 
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
+import ru.spbau.roguelike.ui.ConsoleUIOutput
 
-class ConsoleDisplayController {
-    private val consoleDisplayController = ConsoleDisplayController()
+class ConsoleDisplayController(
+    private val consoleUIOutput: ConsoleUIOutput
+) : DisplayController {
 
-    fun refreshGameField(field: FieldInfo) {
+    override fun refreshGameField(field: FieldInfo) {
+        consoleUIOutput.refreshGameField(field)
+    }
+
+    override fun refreshEquipmentList(equipmentList: EquipmentList) {
         TODO("Not implemented")
     }
 
-    fun refreshEquipmentList(equipmentList: EquipmentList) {
-        TODO("Not implemented")
-    }
-
-    fun onGameIsFinished() {
+    override fun onGameIsFinished() {
         TODO("Not implemented")
     }
 }

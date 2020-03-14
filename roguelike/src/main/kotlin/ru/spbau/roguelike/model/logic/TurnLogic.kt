@@ -1,9 +1,7 @@
 package ru.spbau.roguelike.model.logic
 
-import ru.spbau.roguelike.controller.Turn
-
-class TurnLogic {
-    fun doTurn(turn: Turn) {
-        TODO("Not implemented")
+class TurnLogic(private val gameInfo: GameInfo) {
+    fun doTurn() {
+        gameInfo.player.doTurn()
     }
 }

@@ -1,16 +1,24 @@
 package ru.spbau.roguelike.model.field
 
+import ru.spbau.roguelike.model.field.objects.EmptyCell
+
 class Field(
     private val field: Array<Array<FieldObject>>
 ) {
     val height = field.size
     val width = field[0].size
 
-    operator fun get(xCoordinate: Int, yCoordinate: Int): FieldObject {
-        return field[xCoordinate][yCoordinate]
+    operator fun get(coordinates: Coordinates): FieldObject {
+        return field[coordinates.row][coordinates.column]
     }
 
-    operator fun set(xCoordinate: Int, yCoordinate: Int, newObject: FieldObject) {
-        field[xCoordinate][yCoordinate] = newObject
+    operator fun set(coordinates: Coordinates, newObject: FieldObject) {
+        field[coordinates.row][coordinates.column] = newObject
+    }
+
+    fun move(oldCoordinates: Coordinates, newCoordinates: Coordinates) {
+        val movingObject = get(oldCoordinates)
+        set(oldCoordinates, EmptyCell)
+        set(newCoordinates, movingObject)
     }
 }
