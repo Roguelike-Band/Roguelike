@@ -30,6 +30,9 @@ abstract class FieldObject {
                 is EmptyCell -> encoder.encode(EmptyCell.serializer(), value)
                 is Player -> encoder.encode(Player.serializer(), value)
                 is Wall -> encoder.encode(Wall.serializer(), value)
+                is DefaultMonster -> encoder.encode(DefaultMonster.serializer(), value)
+                is InvisibleCell -> encoder.encode(InvisibleCell.serializer(), value)
+                is Shield -> encoder.encode(Shield.serializer(), value)
             }
         }
 
