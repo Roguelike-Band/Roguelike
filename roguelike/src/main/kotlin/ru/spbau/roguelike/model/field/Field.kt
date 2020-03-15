@@ -1,7 +1,9 @@
 package ru.spbau.roguelike.model.field
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.EmptyCell
 
+@Serializable
 class Field(
     private val field: Array<Array<FieldObject>>
 ) {
@@ -18,7 +20,7 @@ class Field(
 
     fun move(oldCoordinates: Coordinates, newCoordinates: Coordinates) {
         val movingObject = get(oldCoordinates)
-        set(oldCoordinates, EmptyCell)
+        set(oldCoordinates, EmptyCell())
         set(newCoordinates, movingObject)
     }
 }

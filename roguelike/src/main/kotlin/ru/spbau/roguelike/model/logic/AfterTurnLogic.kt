@@ -7,7 +7,7 @@ class AfterTurnLogic(
     private val displayController: DisplayController
 ) {
     fun refreshPlayerUI() {
-        displayController.refreshGameField(gameInfo.player.fieldInfo)
+        displayController.refreshGameField(gameInfo.fieldInfo)
     }
 
     fun generateNewMonsters() {

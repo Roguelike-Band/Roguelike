@@ -1,10 +1,12 @@
 package ru.spbau.roguelike.model.field.objects
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.FieldObject
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
-object Wall : FieldObject() {
+@Serializable
+class Wall : FieldObject() {
     override val objectType = FieldObjectType.WALL
 
     override fun onStep(character: Character): StepResult {
