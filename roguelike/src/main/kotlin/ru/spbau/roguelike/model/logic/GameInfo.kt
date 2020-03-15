@@ -1,6 +1,8 @@
 package ru.spbau.roguelike.model.logic
 
-import ru.spbau.roguelike.model.field.Field
+import kotlinx.serialization.Serializable
+import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.characters.Player
 
-class GameInfo(val field: Field, val player: Player)
+@Serializable
+class GameInfo(val fieldInfo: FieldInfo, val player: Player)

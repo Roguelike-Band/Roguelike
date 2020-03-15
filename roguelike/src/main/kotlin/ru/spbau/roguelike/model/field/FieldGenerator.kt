@@ -9,9 +9,9 @@ object FieldGenerator {
         val field = Array(parameters.height) {
             Array(parameters.width) {
                 if (Random.nextInt(0, 100) < parameters.wallPercentage) {
-                    Wall
+                    Wall()
                 } else {
-                    EmptyCell
+                    EmptyCell()
                 }
             }
         }
