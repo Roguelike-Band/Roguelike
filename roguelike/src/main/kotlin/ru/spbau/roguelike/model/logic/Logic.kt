@@ -15,10 +15,13 @@ import kotlin.random.Random
 
 class Logic(
     private val displayController: DisplayController,
-    private val readerController: ReaderController
+    private val readerController: ReaderController,
+    fileToLoadLevel: String? = null
 ) {
 
-    private var field = FieldGenerator.generateField(
+    private var field = fileToLoadLevel?.let {
+        FieldGenerator.loadField(File(it))
+    } ?: FieldGenerator.generateField(
         FieldGenerationParameters(100, 100, 20)
     )
     private lateinit var gameInfo: GameInfo
