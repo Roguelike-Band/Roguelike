@@ -48,7 +48,7 @@ class Logic(
     private fun populateField() {
         val coordinates = getStartingCoordinates()
         gameInfo = GameInfo(FieldInfo(field, coordinates), createPlayer(coordinates))
-        gameInfo.fieldInfo.setVisibleNeighbourhood()
+        gameInfo.fieldInfo.setVisibleNeighbourhood(Player.PLAYER_START_VISION)
         turnLogic = TurnLogic(gameInfo)
         afterTurnLogic = AfterTurnLogic(gameInfo, displayController)
     }

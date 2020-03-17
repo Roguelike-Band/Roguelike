@@ -39,7 +39,7 @@ class Player : Character() {
             Turn.PUT_ON_EQUIPMENT, Turn.TAKE_OFF_EQUIPMENT ->
                 TODO("Do equipment turn")
         }
-        fieldInfo.setVisibleNeighbourhood()
+        fieldInfo.setVisibleNeighbourhood(PLAYER_START_VISION)
     }
 
     private fun doMovementTurn(turn: Turn, fieldInfo: FieldInfo) {

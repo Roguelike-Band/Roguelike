@@ -45,9 +45,9 @@ class FieldInfo(
     }
 
     /** Changes character's visible part of field */
-    fun setVisibleNeighbourhood() {
-        for (rowDiff in -Player.PLAYER_START_VISION..Player.PLAYER_START_VISION) {
-            for (columnDiff in -Player.PLAYER_START_VISION..Player.PLAYER_START_VISION) {
+    fun setVisibleNeighbourhood(vision: Int) {
+        for (rowDiff in -vision..vision) {
+            for (columnDiff in -vision..vision) {
                 val row = rowDiff + coordinates.row
                 val column = columnDiff + coordinates.column
                 val coordinates = Coordinates(row, column)
