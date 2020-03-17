@@ -1,1 +1,4 @@
 # Roguelike
+
+Run:
+`gradle run`
