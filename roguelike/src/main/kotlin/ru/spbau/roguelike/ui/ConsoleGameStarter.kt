@@ -3,9 +3,6 @@ package ru.spbau.roguelike.ui
 import ru.spbau.roguelike.controller.ConsoleDisplayController
 import ru.spbau.roguelike.controller.ConsoleReaderController
 import ru.spbau.roguelike.model.logic.Logic
-import ru.spbau.roguelike.ui.ConsoleInputReader
-import ru.spbau.roguelike.ui.ConsoleUIOutput
-import ru.spbau.roguelike.ui.Lanterna
 import java.io.IOException
 import java.lang.IllegalArgumentException
 
