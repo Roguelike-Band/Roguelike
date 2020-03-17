@@ -69,9 +69,5 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
         return Pair(max(0, leftBorder), min(fieldSize - 1, rightBorder))
     }
 
-    fun refreshEquipmentList(equipmentList: EquipmentList) {
-        TODO("Not implemented")
-    }
-
     data class FieldPart(val leftRow: Int, val rightRow: Int, val leftColumn: Int, val rightColumn: Int)
 }

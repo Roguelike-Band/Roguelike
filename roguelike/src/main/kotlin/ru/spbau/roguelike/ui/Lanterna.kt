@@ -1,20 +1,29 @@
 package ru.spbau.roguelike.ui
 
+import com.googlecode.lanterna.SGR
 import com.googlecode.lanterna.TerminalSize
 import com.googlecode.lanterna.graphics.TextGraphics
+import com.googlecode.lanterna.gui2.*
+import com.googlecode.lanterna.gui2.dialogs.FileDialogBuilder
+import com.googlecode.lanterna.gui2.dialogs.MessageDialog
+import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton
 import com.googlecode.lanterna.input.KeyStroke
 import com.googlecode.lanterna.screen.TerminalScreen
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import com.googlecode.lanterna.terminal.Terminal
 import com.googlecode.lanterna.terminal.TerminalResizeListener
 
+
 class Lanterna() {
-    private val terminal: Terminal = DefaultTerminalFactory().createTerminal()
+    private val terminal: Terminal = DefaultTerminalFactory()
+        .setTerminalEmulatorTitle("Roguelike")
+        .createTerminal()
     private val screen  = TerminalScreen(terminal)
     private val textGraphics: TextGraphics = screen.newTextGraphics()
 
     init {
         screen.startScreen()
+        screen.cursorPosition = null
     }
 
     fun setResizeListener(resizeListener: TerminalResizeListener) {
@@ -51,8 +60,49 @@ class Lanterna() {
         }
     }
 
+    fun createMenu(gameStarter: ConsoleGameStarter) {
+        screen.clear()
+        val panel = Panel()
+        val label = Label("Current field: random")
+
+        val actionListBox = ActionListBox(TerminalSize(24, 2))
+        val textGUI = MultiWindowTextGUI(screen)
+
+        val window = BasicWindow()
+        window.component = panel
+
+        actionListBox.addItem("Load field from file") {
+            val file = FileDialogBuilder().build().showDialog(textGUI)
+            gameStarter.setFieldFileName(file.absolutePath)
+            label.text = "Current field: ${file.name}"
+        }
+        actionListBox.addItem("Start game") {
+            textGUI.removeWindow(window)
+            gameStarter.start()
+        }
+
+        panel.addComponent(actionListBox)
+        label.addStyle(SGR.BOLD)
+        panel.addComponent(label)
+
+        textGUI.addWindowAndWait(window)
+    }
+
+    fun printErrorMessage(message: String) {
+        screen.clear()
+        val textGUI = MultiWindowTextGUI(screen)
+        MessageDialog.showMessageDialog(
+            textGUI, "Error", message, MessageDialogButton.OK)
+        MainMenu(this).start()
+    }
+
     fun refreshScreen() {
         screen.refresh()
         screen.doResizeIfNecessary()
+    }
+
+    fun prepareGame() {
+        terminal.clearScreen()
+        refreshScreen()
     }
 }

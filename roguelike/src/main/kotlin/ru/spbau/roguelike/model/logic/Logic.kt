@@ -19,10 +19,16 @@ class Logic(
     fileToLoadLevel: String? = null
 ) {
 
+    companion object {
+        const val DEFAULT_FIELD_WIDTH = 100
+        const val DEFAULT_FIELD_HEIGHT = 100
+        const val DEFAULT_WALL_PERCENTAGE = 20
+    }
+
     private var field = fileToLoadLevel?.let {
         FieldGenerator.loadField(File(it))
     } ?: FieldGenerator.generateField(
-        FieldGenerationParameters(100, 100, 20)
+        FieldGenerationParameters(DEFAULT_FIELD_HEIGHT, DEFAULT_FIELD_WIDTH, DEFAULT_WALL_PERCENTAGE)
     )
     private lateinit var gameInfo: GameInfo
     private lateinit var turnLogic: TurnLogic

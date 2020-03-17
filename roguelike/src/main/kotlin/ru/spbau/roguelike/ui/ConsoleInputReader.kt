@@ -15,6 +15,9 @@ class ConsoleInputReader(private val lanterna: Lanterna) {
                 KeyType.ArrowLeft  -> return Turn.MOVEMENT_LEFT
                 KeyType.ArrowRight -> return Turn.MOVEMENT_RIGHT
                 KeyType.EOF -> exitProcess(0)
+                else -> {
+                    // ignore
+                }
             }
         }
     }
