@@ -13,11 +13,16 @@ import ru.spbau.roguelike.model.field.objects.characters.Player
 import ru.spbau.roguelike.model.field.objects.characters.monsters.DefaultMonster
 import ru.spbau.roguelike.model.field.objects.equipment.items.Shield
 
+/** Every cell on the field is inheritor of this class */
 @Polymorphic
 abstract class FieldObject {
     abstract val objectType: FieldObjectType
     open val canBeCharacterStartCell = false
 
+    /**
+     * Does all side effects of character's try to step
+     * and returns if step should be done
+     */
     abstract fun onStep(character: Character): StepResult
 
     @Serializer(forClass = FieldObject::class)

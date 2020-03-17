@@ -8,6 +8,9 @@ import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
 import java.lang.Integer.max
 import java.lang.Integer.min
 
+/**
+ * Class for showing game status to console
+ */
 class ConsoleUIOutput(private val lanterna: Lanterna) {
     private var field: FieldInfo? = null
     private var terminalSize = lanterna.getTerminalSize()
@@ -26,6 +29,7 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
         refreshGameField(field!!)
     }
 
+    /** Updates field on screen */
     fun refreshGameField(field: FieldInfo) {
         this.field = field
         val fieldShow = getFieldShow()
@@ -69,9 +73,5 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
         return Pair(max(0, leftBorder), min(fieldSize - 1, rightBorder))
     }
 
-    fun refreshEquipmentList(equipmentList: EquipmentList) {
-        TODO("Not implemented")
-    }
-
-    data class FieldPart(val leftRow: Int, val rightRow: Int, val leftColumn: Int, val rightColumn: Int)
+    private data class FieldPart(val leftRow: Int, val rightRow: Int, val leftColumn: Int, val rightColumn: Int)
 }

@@ -9,6 +9,7 @@ import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 
+/** User's character */
 @Serializable
 class Player : Character() {
 
@@ -25,12 +26,14 @@ class Player : Character() {
 
     override fun onStep(character: Character): StepResult {
         TODO("not implemented")
+        @Suppress("UNREACHABLE_CODE", "ControlFlowWithEmptyBody")
         return StepResult.STEP_SHOULD_BE_CANCELLED
     }
 
+    /** Reads input from `readerController` and does action */
     override fun doTurn(fieldInfo: FieldInfo) {
         val turn = readerController.readTurn()
-        when (turn ) {
+        when (turn) {
             Turn.MOVEMENT_LEFT, Turn.MOVEMENT_RIGHT, Turn.MOVEMENT_UP, Turn.MOVEMENT_DOWN ->
                 doMovementTurn(turn, fieldInfo)
             Turn.PUT_ON_EQUIPMENT, Turn.TAKE_OFF_EQUIPMENT ->

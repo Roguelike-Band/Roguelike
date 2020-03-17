@@ -2,6 +2,7 @@ package ru.spbau.roguelike.model.field
 
 import java.lang.IllegalArgumentException
 
+/** Parameters for random field generation */
 class FieldGenerationParameters(
     val height: Int,
     val width: Int,

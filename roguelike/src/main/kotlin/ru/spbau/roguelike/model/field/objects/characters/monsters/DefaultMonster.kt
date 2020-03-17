@@ -13,6 +13,7 @@ class DefaultMonster : Monster() {
 
     override fun onStep(character: Character): StepResult {
         TODO("not implemented")
+        @Suppress("UNREACHABLE_CODE")
         return StepResult.STEP_SHOULD_BE_CANCELLED
     }
 

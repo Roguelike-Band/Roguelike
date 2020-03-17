@@ -6,6 +6,7 @@ import ru.spbau.roguelike.model.field.FieldObject
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
+/** Just an empty cell on a field */
 @Serializable
 class EmptyCell : FieldObject() {
     override val objectType = FieldObjectType.EMPTY_CELL

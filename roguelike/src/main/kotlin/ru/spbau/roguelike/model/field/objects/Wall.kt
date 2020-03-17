@@ -5,6 +5,7 @@ import ru.spbau.roguelike.model.field.FieldObject
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
+/** Object on a field that nobody can step on */
 @Serializable
 class Wall : FieldObject() {
     override val objectType = FieldObjectType.WALL

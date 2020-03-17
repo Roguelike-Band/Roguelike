@@ -3,7 +3,11 @@ package ru.spbau.roguelike.ui
 import com.googlecode.lanterna.TextColor
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 
+/**
+ * Object that maps field object to it's console drawing parameters
+ */
 object CellDrawer {
+    /** Maps concrete object to drawing parameters */
     fun buildDrawingParameters(objectType: FieldObjectType): DrawingParameters {
         return when (objectType) {
             FieldObjectType.EMPTY_CELL -> DrawingParameters(' ')
@@ -16,6 +20,7 @@ object CellDrawer {
     }
 }
 
+/** Parameters for drawing cell on a console */
 class DrawingParameters(
     val symbol: Char,
     val backgroundColor: TextColor = TextColor.ANSI.DEFAULT,
