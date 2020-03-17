@@ -9,6 +9,7 @@ import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 
+/** User's character */
 @Serializable
 class Player : Character() {
 
@@ -29,6 +30,7 @@ class Player : Character() {
         return StepResult.STEP_SHOULD_BE_CANCELLED
     }
 
+    /** Reads input from `readerController` and does action */
     override fun doTurn(fieldInfo: FieldInfo) {
         val turn = readerController.readTurn()
         when (turn) {

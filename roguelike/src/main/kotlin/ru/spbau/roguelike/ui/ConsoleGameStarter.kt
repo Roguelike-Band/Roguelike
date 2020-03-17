@@ -9,9 +9,17 @@ import ru.spbau.roguelike.ui.Lanterna
 import java.io.IOException
 import java.lang.IllegalArgumentException
 
+/**
+ * Class for starting game from console
+ */
 class ConsoleGameStarter(private val lanterna: Lanterna) {
     private var fieldFileName: String? = null
 
+    /**
+     * Starts game.
+     *
+     * If something gone wrong, shows error message
+     */
     fun start() {
         lanterna.prepareGame()
         val consoleUIOutput = ConsoleUIOutput(lanterna)
@@ -33,6 +41,7 @@ class ConsoleGameStarter(private val lanterna: Lanterna) {
         logic.gameLoop()
     }
 
+    /** Sets file from which logic should read start field */
     fun setFieldFileName(fileName: String?) {
         fieldFileName = fileName
     }

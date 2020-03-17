@@ -5,6 +5,7 @@ import ru.spbau.roguelike.model.field.FieldObject
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
+/** Cell that is invisible for a character. Used only by `FieldInfo` */
 @Serializable
 class InvisibleCell : FieldObject() {
     override val objectType = FieldObjectType.INVISIBLE_CELL

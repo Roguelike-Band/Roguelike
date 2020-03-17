@@ -3,6 +3,7 @@ package ru.spbau.roguelike.model.field
 import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.EmptyCell
 
+/** Grid with all information about game */
 @Serializable
 class Field(
     private val field: Array<Array<FieldObject>>
@@ -18,6 +19,11 @@ class Field(
         field[coordinates.row][coordinates.column] = newObject
     }
 
+    /**
+     * Moves object that was on `oldCoordinates` to `newCoordinates`.
+     *
+     * Places empty cell to `oldCoordinates`
+     */
     fun move(oldCoordinates: Coordinates, newCoordinates: Coordinates) {
         val movingObject = get(oldCoordinates)
         set(oldCoordinates, EmptyCell())

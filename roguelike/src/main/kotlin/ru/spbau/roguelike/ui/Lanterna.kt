@@ -13,8 +13,10 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import com.googlecode.lanterna.terminal.Terminal
 import com.googlecode.lanterna.terminal.TerminalResizeListener
 
-
-class Lanterna() {
+/**
+ * Wrapper above Lanterna library
+ */
+class Lanterna {
     private val terminal: Terminal = DefaultTerminalFactory()
         .setTerminalEmulatorTitle("Roguelike")
         .createTerminal()
@@ -30,10 +32,12 @@ class Lanterna() {
         terminal.addResizeListener(resizeListener)
     }
 
+    /** Returns current terminal size */
     fun getTerminalSize(): TerminalSize {
         return terminal.terminalSize
     }
 
+    /** Non-blocking ignore of all previous input */
     fun ignoreAllPreviousInput() {
         var lastInput = terminal.pollInput()
         while (lastInput != null) {
@@ -41,10 +45,12 @@ class Lanterna() {
         }
     }
 
+    /** Blocking input read */
     fun readInput(): KeyStroke {
         return terminal.readInput()
     }
 
+    /** Draws cell in game mode */
     fun drawCell(column: Int, row: Int, cellParameters: DrawingParameters) {
         textGraphics.apply {
             val previousBackgroundColor = backgroundColor
@@ -60,6 +66,7 @@ class Lanterna() {
         }
     }
 
+    /** Creates main menu and blocks control */
     fun createMenu(gameStarter: ConsoleGameStarter) {
         screen.clear()
         val panel = Panel()
@@ -88,6 +95,7 @@ class Lanterna() {
         textGUI.addWindowAndWait(window)
     }
 
+    /** Prints error message and opens main menu after OK is clicked */
     fun printErrorMessage(message: String) {
         screen.clear()
         val textGUI = MultiWindowTextGUI(screen)
@@ -96,13 +104,15 @@ class Lanterna() {
         MainMenu(this).start()
     }
 
+    /** Refreshes screen showing updates */
     fun refreshScreen() {
         screen.refresh()
         screen.doResizeIfNecessary()
     }
 
+    /** Cleares screen before game */
     fun prepareGame() {
-        terminal.clearScreen()
+        screen.clear()
         refreshScreen()
     }
 }

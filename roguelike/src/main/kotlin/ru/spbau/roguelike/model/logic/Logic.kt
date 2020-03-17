@@ -13,6 +13,7 @@ import ru.spbau.roguelike.model.field.objects.characters.Player
 import java.io.File
 import kotlin.random.Random
 
+/** Game logic */
 class Logic(
     private val displayController: DisplayController,
     private val readerController: ReaderController,

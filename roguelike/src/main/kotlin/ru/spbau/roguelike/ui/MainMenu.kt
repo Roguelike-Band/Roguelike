@@ -1,5 +1,10 @@
 package ru.spbau.roguelike.ui
 
+/**
+ * Class for showing main menu.
+ *
+ * Entry point of a game
+ */
 class MainMenu(private val lanterna: Lanterna) {
 
     fun start() {

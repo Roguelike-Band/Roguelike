@@ -4,6 +4,7 @@ import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
 import ru.spbau.roguelike.ui.ConsoleUIOutput
 
+/** Controller for console showing */
 class ConsoleDisplayController(
     private val consoleUIOutput: ConsoleUIOutput
 ) : DisplayController {
