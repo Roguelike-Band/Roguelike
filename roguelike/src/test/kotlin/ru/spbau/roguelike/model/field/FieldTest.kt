@@ -3,9 +3,9 @@ package ru.spbau.roguelike.model.field
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
-import ru.spbau.roguelike.model.field.objects.EmptyCell
+import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
-import ru.spbau.roguelike.model.field.objects.Wall
+import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.characters.Player
 
 class FieldTest {
@@ -14,10 +14,24 @@ class FieldTest {
     @BeforeEach
     fun initField() {
         field = Field(arrayOf(
-            arrayOf(EmptyCell(), EmptyCell(), Wall()),
-            arrayOf(Player(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell())
+            arrayOf(
+                EmptyCell(),
+                EmptyCell(), Wall()
+            ),
+            arrayOf(Player(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            )
         ))
     }
 

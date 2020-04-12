@@ -1,13 +1,13 @@
-package ru.spbau.roguelike.model.field
+package ru.spbau.roguelike.model.field.objects
 
 import kotlinx.serialization.*
 import kotlinx.serialization.json.JsonInput
 import kotlinx.serialization.json.JsonObject
-import ru.spbau.roguelike.model.field.objects.EmptyCell
-import ru.spbau.roguelike.model.field.objects.FieldObjectType
+import ru.spbau.roguelike.model.field.StepResult
+import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
+import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.FieldObjectType.*
-import ru.spbau.roguelike.model.field.objects.InvisibleCell
-import ru.spbau.roguelike.model.field.objects.Wall
+import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 import ru.spbau.roguelike.model.field.objects.characters.Character
 import ru.spbau.roguelike.model.field.objects.characters.Player
 import ru.spbau.roguelike.model.field.objects.characters.monsters.DefaultMonster
@@ -32,11 +32,13 @@ abstract class FieldObject {
 
         override fun serialize(encoder: Encoder, value: FieldObject) {
             when (value) {
-                is EmptyCell -> encoder.encode(EmptyCell.serializer(), value)
+                is EmptyCell -> encoder.encode(
+                    EmptyCell.serializer(), value)
                 is Player -> encoder.encode(Player.serializer(), value)
                 is Wall -> encoder.encode(Wall.serializer(), value)
                 is DefaultMonster -> encoder.encode(DefaultMonster.serializer(), value)
-                is InvisibleCell -> encoder.encode(InvisibleCell.serializer(), value)
+                is InvisibleCell -> encoder.encode(
+                    InvisibleCell.serializer(), value)
                 is Shield -> encoder.encode(Shield.serializer(), value)
             }
         }

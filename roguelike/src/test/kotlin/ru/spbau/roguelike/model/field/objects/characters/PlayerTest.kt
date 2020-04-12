@@ -10,9 +10,9 @@ import ru.spbau.roguelike.controller.Turn
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
 import ru.spbau.roguelike.model.field.FieldInfo
-import ru.spbau.roguelike.model.field.FieldObject
-import ru.spbau.roguelike.model.field.objects.EmptyCell
-import ru.spbau.roguelike.model.field.objects.Wall
+import ru.spbau.roguelike.model.field.objects.FieldObject
+import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
+import ru.spbau.roguelike.model.field.objects.cells.Wall
 
 class PlayerTest {
     private lateinit var fieldInfo: FieldInfo
@@ -20,10 +20,24 @@ class PlayerTest {
     @BeforeEach
     fun initFieldInfo() {
         val field = Field(arrayOf(
-            arrayOf(EmptyCell(), EmptyCell(), Wall()),
-            arrayOf(Player(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell())
+            arrayOf(
+                EmptyCell(),
+                EmptyCell(), Wall()
+            ),
+            arrayOf(Player(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            )
         ))
         fieldInfo = FieldInfo(field, Coordinates(1, 0))
         fieldInfo.setVisibleNeighbourhood(100)
@@ -40,10 +54,24 @@ class PlayerTest {
         player.doTurn(fieldInfo)
 
         val expected = Field(arrayOf(
-            arrayOf(EmptyCell(), EmptyCell(), Wall()),
-            arrayOf(Player(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell())
+            arrayOf(
+                EmptyCell(),
+                EmptyCell(), Wall()
+            ),
+            arrayOf(Player(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            )
         ))
 
         for (row in 0 until fieldInfo.height) {
@@ -67,10 +95,24 @@ class PlayerTest {
         player.doTurn(fieldInfo)
 
         val expected = Field(arrayOf(
-            arrayOf(EmptyCell(), EmptyCell(), Wall()),
-            arrayOf(EmptyCell(), Player(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell())
+            arrayOf(
+                EmptyCell(),
+                EmptyCell(), Wall()
+            ),
+            arrayOf(
+                EmptyCell(), Player(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            )
         ))
 
         for (row in 0 until fieldInfo.height) {
@@ -95,9 +137,21 @@ class PlayerTest {
 
         val expected = Field(arrayOf(
             arrayOf(Player(), EmptyCell(), Wall()),
-            arrayOf<FieldObject>(EmptyCell(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell())
+            arrayOf<FieldObject>(
+                EmptyCell(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            )
         ))
 
         for (row in 0 until fieldInfo.height) {
@@ -121,10 +175,24 @@ class PlayerTest {
         player.doTurn(fieldInfo)
 
         val expected = Field(arrayOf(
-            arrayOf(EmptyCell(), EmptyCell(), Wall()),
-            arrayOf(Player(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell())
+            arrayOf(
+                EmptyCell(),
+                EmptyCell(), Wall()
+            ),
+            arrayOf(Player(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            )
         ))
 
         for (row in 0 until fieldInfo.height) {

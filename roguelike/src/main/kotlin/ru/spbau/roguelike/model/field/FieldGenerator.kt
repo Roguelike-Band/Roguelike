@@ -1,8 +1,9 @@
 package ru.spbau.roguelike.model.field
 
-import ru.spbau.roguelike.model.field.objects.EmptyCell
+import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
+import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
-import ru.spbau.roguelike.model.field.objects.Wall
+import ru.spbau.roguelike.model.field.objects.cells.Wall
 import java.io.File
 import java.util.ArrayDeque
 import kotlin.random.Random
@@ -68,8 +69,7 @@ object FieldGenerator {
                 val newCoordinates = Coordinates(currentCoordinates.row + stepDirectory.first,
                     currentCoordinates.column + stepDirectory.second)
 
-                if (0 <= newCoordinates.row && newCoordinates.row < colors.size &&
-                    0 <= newCoordinates.column && newCoordinates.column < colors[0].size) {
+                if (newCoordinates.row in colors.indices && newCoordinates.column in colors[0].indices) {
                     if (field[newCoordinates.row][newCoordinates.column].objectType == FieldObjectType.EMPTY_CELL &&
                             colors[newCoordinates.row][newCoordinates.column] == 0) {
                         colors[newCoordinates.row][newCoordinates.column] = currentColor
@@ -83,9 +83,11 @@ object FieldGenerator {
     private fun connectCells(field: Array<Array<FieldObject>>, from: Coordinates, to: Coordinates) {
         var currentCoordinates = from
         while (currentCoordinates != to) {
-            field[currentCoordinates.row][currentCoordinates.column] = EmptyCell()
+            field[currentCoordinates.row][currentCoordinates.column] =
+                EmptyCell()
             val changeColumnCoordinate = currentCoordinates.row == to.row ||
                     (currentCoordinates.column != to.column && Random.nextBoolean())
+
             currentCoordinates = if (changeColumnCoordinate) {
                 Coordinates(currentCoordinates.row,
                     currentCoordinates.column + moveDelta(currentCoordinates.column, to.column))

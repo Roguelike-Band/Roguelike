@@ -1,13 +1,13 @@
 package ru.spbau.roguelike.model.field
 
 import org.junit.jupiter.api.BeforeEach
-import ru.spbau.roguelike.model.field.objects.EmptyCell
-import ru.spbau.roguelike.model.field.objects.Wall
 import ru.spbau.roguelike.model.field.objects.characters.Player
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import ru.spbau.roguelike.model.field.objects.FieldObjectType
-import ru.spbau.roguelike.model.field.objects.InvisibleCell
+import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
+import ru.spbau.roguelike.model.field.objects.cells.Wall
+import ru.spbau.roguelike.model.field.objects.*
+import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 
 class FieldInfoTest {
     private lateinit var fieldInfo: FieldInfo
@@ -15,10 +15,24 @@ class FieldInfoTest {
     @BeforeEach
     fun initFieldInfo() {
         val field = Field(arrayOf(
-            arrayOf(EmptyCell(), EmptyCell(), Wall()),
-            arrayOf(Player(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell()),
-            arrayOf(Wall(), EmptyCell(), EmptyCell())
+            arrayOf(
+                EmptyCell(),
+                EmptyCell(), Wall()
+            ),
+            arrayOf(Player(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
+                EmptyCell()
+            )
         ))
         fieldInfo = FieldInfo(field, Coordinates(1, 0))
     }
@@ -49,10 +63,21 @@ class FieldInfoTest {
     @Test
     fun `Visibility should work`() {
         val expected = Field(arrayOf(
-            arrayOf(EmptyCell(), EmptyCell(), InvisibleCell()),
-            arrayOf(Player(), EmptyCell(), InvisibleCell()),
-            arrayOf(Wall(), EmptyCell(), InvisibleCell()),
-            arrayOf<FieldObject>(InvisibleCell(), InvisibleCell(), InvisibleCell())
+            arrayOf(
+                EmptyCell(),
+                EmptyCell(), InvisibleCell()
+            ),
+            arrayOf(Player(), EmptyCell(),
+                InvisibleCell()
+            ),
+            arrayOf(Wall(), EmptyCell(),
+                InvisibleCell()
+            ),
+            arrayOf<FieldObject>(
+                InvisibleCell(),
+                InvisibleCell(),
+                InvisibleCell()
+            )
         ))
         fieldInfo.setVisibleNeighbourhood(1)
         for (row in 0 until fieldInfo.height) {

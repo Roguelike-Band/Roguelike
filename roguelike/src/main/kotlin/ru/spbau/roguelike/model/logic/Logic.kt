@@ -5,10 +5,7 @@ import kotlinx.serialization.json.JsonConfiguration
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.EquipmentNavigatorMove
 import ru.spbau.roguelike.controller.ReaderController
-import ru.spbau.roguelike.model.field.Coordinates
-import ru.spbau.roguelike.model.field.FieldGenerationParameters
-import ru.spbau.roguelike.model.field.FieldGenerator
-import ru.spbau.roguelike.model.field.FieldInfo
+import ru.spbau.roguelike.model.field.*
 import ru.spbau.roguelike.model.field.objects.characters.Player
 import java.io.File
 import kotlin.random.Random
@@ -47,7 +44,8 @@ class Logic(
 
     private fun populateField() {
         val coordinates = getStartingCoordinates()
-        gameInfo = GameInfo(FieldInfo(field, coordinates), createPlayer(coordinates))
+        val movementExecutor = MovementExecutor(field)
+        gameInfo = GameInfo(FieldInfo(field, coordinates), createPlayer(coordinates), movementExecutor)
         gameInfo.fieldInfo.setVisibleNeighbourhood(Player.PLAYER_START_VISION)
         turnLogic = TurnLogic(gameInfo)
         afterTurnLogic = AfterTurnLogic(gameInfo, displayController)

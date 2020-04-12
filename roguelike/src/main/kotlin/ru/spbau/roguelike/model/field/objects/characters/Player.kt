@@ -6,19 +6,21 @@ import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.controller.Turn
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.FieldInfo
+import ru.spbau.roguelike.model.field.MovementExecutor
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 
 /** User's character */
 @Serializable
 class Player : Character() {
-
-    override val objectType = FieldObjectType.PLAYER
-    @Transient private lateinit var readerController: ReaderController
-
     companion object {
         const val PLAYER_START_VISION = 5
     }
+
+    override val vision: Int = PLAYER_START_VISION
+
+    override val objectType = FieldObjectType.PLAYER
+    @Transient private lateinit var readerController: ReaderController
 
     fun initializeReaderController(readerController: ReaderController) {
         this.readerController = readerController
@@ -31,18 +33,16 @@ class Player : Character() {
     }
 
     /** Reads input from `readerController` and does action */
-    override fun doTurn(fieldInfo: FieldInfo) {
+    override fun doTurn(fieldInfo: FieldInfo, movementExecutor: MovementExecutor) {
         val turn = readerController.readTurn()
         when (turn) {
             Turn.MOVEMENT_LEFT, Turn.MOVEMENT_RIGHT, Turn.MOVEMENT_UP, Turn.MOVEMENT_DOWN ->
-                doMovementTurn(turn, fieldInfo)
-            Turn.PUT_ON_EQUIPMENT, Turn.TAKE_OFF_EQUIPMENT ->
-                TODO("Do equipment turn")
+                doMovementTurn(turn, fieldInfo, movementExecutor)
+            Turn.PUT_ON_EQUIPMENT, Turn.TAKE_OFF_EQUIPMENT -> TODO("Do equipment turn")
         }
-        fieldInfo.setVisibleNeighbourhood(PLAYER_START_VISION)
     }
 
-    private fun doMovementTurn(turn: Turn, fieldInfo: FieldInfo) {
+    private fun doMovementTurn(turn: Turn, fieldInfo: FieldInfo, movementExecutor: MovementExecutor) {
         val coordinates = fieldInfo.coordinates
         val newCoordinates = when (turn) {
             Turn.MOVEMENT_DOWN    -> Coordinates(coordinates.row + 1, coordinates.column)
@@ -51,13 +51,6 @@ class Player : Character() {
             Turn.MOVEMENT_RIGHT   -> Coordinates(coordinates.row, coordinates.column + 1)
             else -> throw IllegalArgumentException("Not movement turn")
         }
-        if (fieldInfo.isGood(newCoordinates)) {
-            val stepResult = fieldInfo[newCoordinates].onStep(this)
-            if (stepResult == StepResult.STEP_SHOULD_BE_DONE) {
-                fieldInfo.moveTo(newCoordinates)
-            }
-        } else {
-            // TODO
-        }
+        movementExecutor.executeMove(this, newCoordinates, fieldInfo)
     }
 }
