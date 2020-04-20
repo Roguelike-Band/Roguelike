@@ -1,25 +1,22 @@
 package ru.spbau.roguelike.model.field.objects.characters.player
 
-import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.controller.ReaderController
-import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
+import ru.spbau.roguelike.model.field.objects.characters.Attributes
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
 /** User's character */
-@Serializable
-class Player(private val readerController: ReaderController) : Character(PlayerStrategy(readerController)) {
+class Player(readerController: ReaderController) : Character(PlayerStrategy(readerController),
+        Attributes(PLAYER_HEALTH, PLAYER_MAX_POWER)) {
+
     companion object {
         const val PLAYER_START_VISION = 5
+
+        const val PLAYER_HEALTH = 100
+        const val PLAYER_MAX_POWER = 10
     }
 
     override val vision: Int = PLAYER_START_VISION
 
     override val objectType = FieldObjectType.PLAYER
-
-    override fun onStep(character: Character): StepResult {
-        TODO("not implemented")
-        @Suppress("UNREACHABLE_CODE", "ControlFlowWithEmptyBody")
-        return StepResult.STEP_SHOULD_BE_CANCELLED
-    }
 }

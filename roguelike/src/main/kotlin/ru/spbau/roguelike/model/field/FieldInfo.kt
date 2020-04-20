@@ -1,11 +1,9 @@
 package ru.spbau.roguelike.model.field
 
-import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 
 /** Information about field that is known to character */
-@Serializable
 class FieldInfo(
     private val field: Field,
     private var currentCoordinates: Coordinates
@@ -48,8 +46,8 @@ class FieldInfo(
     fun setVisibleNeighbourhood(vision: Int) {
         for (rowDiff in -vision..vision) {
             for (columnDiff in -vision..vision) {
-                val row = rowDiff + currentCoordinates.row
-                val column = columnDiff + currentCoordinates.column
+                val row = rowDiff + coordinates.row
+                val column = columnDiff + coordinates.column
                 val coordinates = Coordinates(row, column)
                 if (field.isGood(coordinates)) {
                     makeCellVisible(coordinates)

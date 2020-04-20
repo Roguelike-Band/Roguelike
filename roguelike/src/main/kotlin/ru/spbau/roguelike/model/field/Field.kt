@@ -1,11 +1,10 @@
 package ru.spbau.roguelike.model.field
 
-import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.FieldObject
+import kotlin.random.Random
 
 /** Grid with all information about game */
-@Serializable
 class Field(
     private val field: Array<Array<FieldObject>>
 ) {
@@ -35,5 +34,19 @@ class Field(
         val movingObject = get(oldCoordinates)
         set(oldCoordinates, EmptyCell())
         set(newCoordinates, movingObject)
+    }
+
+    fun getRandomEmptyCell(): Coordinates {
+        val possibleCoordinates = mutableListOf<Coordinates>()
+        for (row in 0 until height) {
+            for (column in 0 until width) {
+                val coordinates = Coordinates(row, column)
+                if (get(coordinates).canBeCharacterStartCell) {
+                    possibleCoordinates.add(coordinates)
+                }
+            }
+        }
+
+        return possibleCoordinates[Random.nextInt(possibleCoordinates.size)]
     }
 }
