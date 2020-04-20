@@ -37,7 +37,7 @@ class Logic(
         afterTurnLogic.refreshPlayerUI()
         while (true) {
             turnLogic.doTurn()
-            saveGameInfo("save.txt")
+            //saveGameInfo("save.txt")
             afterTurnLogic.refreshPlayerUI()
         }
     }
