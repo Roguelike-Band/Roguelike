@@ -10,12 +10,14 @@ import ru.spbau.roguelike.controller.Turn
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
 import ru.spbau.roguelike.model.field.FieldInfo
+import ru.spbau.roguelike.model.field.MovementExecutor
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
 
 class PlayerTest {
     private lateinit var fieldInfo: FieldInfo
+    private lateinit var movementExecutor: MovementExecutor
 
     @BeforeEach
     fun initFieldInfo() {
@@ -39,6 +41,7 @@ class PlayerTest {
                 EmptyCell()
             )
         ))
+        movementExecutor = MovementExecutor(field)
         fieldInfo = FieldInfo(field, Coordinates(1, 0))
         fieldInfo.setVisibleNeighbourhood(100)
     }
@@ -51,7 +54,7 @@ class PlayerTest {
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_LEFT)
 
         player.initializeReaderController(mockedReader)
-        player.doTurn(fieldInfo)
+        player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
             arrayOf(
@@ -92,7 +95,7 @@ class PlayerTest {
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_RIGHT)
 
         player.initializeReaderController(mockedReader)
-        player.doTurn(fieldInfo)
+        player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
             arrayOf(
@@ -133,7 +136,7 @@ class PlayerTest {
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_UP)
 
         player.initializeReaderController(mockedReader)
-        player.doTurn(fieldInfo)
+        player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
             arrayOf(Player(), EmptyCell(), Wall()),
@@ -172,7 +175,7 @@ class PlayerTest {
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_DOWN)
 
         player.initializeReaderController(mockedReader)
-        player.doTurn(fieldInfo)
+        player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
             arrayOf(
