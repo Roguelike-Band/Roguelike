@@ -6,6 +6,8 @@ import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.EquipmentNavigatorMove
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.*
+import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
+import ru.spbau.roguelike.model.field.objects.characters.monsters.MonsterFactory
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import java.io.File
 import kotlin.random.Random
@@ -21,6 +23,8 @@ class Logic(
         const val DEFAULT_FIELD_WIDTH = 100
         const val DEFAULT_FIELD_HEIGHT = 100
         const val DEFAULT_WALL_PERCENTAGE = 20
+
+        const val MONSTER_GENERATION_PERCENTAGE = 20
     }
 
     private var field = fileToLoadLevel?.let {
@@ -28,27 +32,56 @@ class Logic(
     } ?: FieldGenerator.generateField(
         FieldGenerationParameters(DEFAULT_FIELD_HEIGHT, DEFAULT_FIELD_WIDTH, DEFAULT_WALL_PERCENTAGE)
     )
-    private lateinit var gameInfo: GameInfo
-    private lateinit var turnLogic: TurnLogic
-    private lateinit var afterTurnLogic: AfterTurnLogic
+    private lateinit var gameInfos: MutableList<GameInfo>
+    private lateinit var turnLogics: MutableList<TurnLogic>
+    private lateinit var afterTurnLogics: MutableList<AfterTurnLogic>
 
     fun gameLoop() {
         populateField()
-        afterTurnLogic.refreshPlayerUI()
         while (true) {
-            turnLogic.doTurn()
-            //saveGameInfo("save.txt")
-            afterTurnLogic.refreshPlayerUI()
+            for (logic in afterTurnLogics) {
+                logic.refreshPlayerUI()
+            }
+            for (logic in turnLogics) {
+                logic.doTurn()
+                //saveGameInfo("save.txt")
+                for (afterTurnLogic in afterTurnLogics) {
+                    afterTurnLogic.refreshPlayerUI()
+                }
+            }
+            generateNewMonsters()
         }
+    }
+
+    private fun generateNewMonsters() {
+        if (Random.nextInt(100) < MONSTER_GENERATION_PERCENTAGE) {
+            val monster = MonsterFactory.generateMonster()
+            addMonster(monster)
+        }
+    }
+
+    private fun addMonster(monster: AbstractMonster) {
+        val coordinates = getStartingCoordinates()
+        field[coordinates] = monster
+        val movementExecutor = MovementExecutor(field)
+        val gameInfo = GameInfo(FieldInfo(field, coordinates), monster, movementExecutor)
+        gameInfo.fieldInfo.setVisibleNeighbourhood(monster.vision)
+
+        turnLogics.add(TurnLogic(gameInfo))
+        afterTurnLogics.add(MonsterAfterTurnLogic())
+        gameInfos.add(gameInfo)
     }
 
     private fun populateField() {
         val coordinates = getStartingCoordinates()
         val movementExecutor = MovementExecutor(field)
-        gameInfo = GameInfo(FieldInfo(field, coordinates), createPlayer(coordinates), movementExecutor)
-        gameInfo.fieldInfo.setVisibleNeighbourhood(Player.PLAYER_START_VISION)
-        turnLogic = TurnLogic(gameInfo)
-        afterTurnLogic = AfterTurnLogic(gameInfo, displayController)
+        val player = createPlayer(coordinates)
+        val gameInfo = GameInfo(FieldInfo(field, coordinates), player, movementExecutor)
+        gameInfo.fieldInfo.setVisibleNeighbourhood(player.vision)
+        turnLogics = mutableListOf(TurnLogic(gameInfo))
+        afterTurnLogics = mutableListOf(PlayerAfterTurnLogic(gameInfo, displayController))
+
+        gameInfos = mutableListOf(gameInfo)
     }
 
     private fun getStartingCoordinates(): Coordinates {
@@ -72,7 +105,7 @@ class Logic(
         return player
     }
 
-    private fun saveGameInfo(fileName: String) {
+    /*private fun saveGameInfo(fileName: String) {
         val json = Json(JsonConfiguration.Stable)
         val jsonData = json.stringify(GameInfo.serializer(), gameInfo)
         File(fileName).printWriter().use {
@@ -88,7 +121,7 @@ class Logic(
             turnLogic = TurnLogic(gameInfo)
             afterTurnLogic = AfterTurnLogic(gameInfo, displayController)
         }
-    }
+    }*/
 
     private fun onEquipmentNavigatorMove(equipmentNavigatorMove: EquipmentNavigatorMove) {
         TODO("Not implemented")
