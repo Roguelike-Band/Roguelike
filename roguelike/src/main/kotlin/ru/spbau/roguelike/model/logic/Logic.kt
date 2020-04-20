@@ -6,7 +6,7 @@ import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.EquipmentNavigatorMove
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.*
-import ru.spbau.roguelike.model.field.objects.characters.Player
+import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import java.io.File
 import kotlin.random.Random
 
@@ -66,8 +66,7 @@ class Logic(
     }
 
     private fun createPlayer(coordinates: Coordinates): Player {
-        val player = Player()
-        player.initializeReaderController(readerController)
+        val player = Player(readerController)
         field[coordinates] = player
 
         return player
@@ -86,7 +85,6 @@ class Logic(
             val data = it.readText()
             val json = Json(JsonConfiguration.Stable)
             gameInfo = json.parse(GameInfo.serializer(), data)
-            gameInfo.player.initializeReaderController(readerController)
             turnLogic = TurnLogic(gameInfo)
             afterTurnLogic = AfterTurnLogic(gameInfo, displayController)
         }

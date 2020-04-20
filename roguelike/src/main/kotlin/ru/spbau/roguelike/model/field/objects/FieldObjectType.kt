@@ -9,6 +9,8 @@ enum class FieldObjectType {
     INVISIBLE_CELL,
     WALL,
     PLAYER,
-    DEFAULT_MONSTER,
+    AGGRESSIVE_MONSTER,
+    COWARD_MONSTER,
+    PASSIVE_MONSTER,
     SHIELD
 }

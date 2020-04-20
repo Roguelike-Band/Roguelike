@@ -14,6 +14,7 @@ import ru.spbau.roguelike.model.field.MovementExecutor
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
+import ru.spbau.roguelike.model.field.objects.characters.player.Player
 
 class PlayerTest {
     private lateinit var fieldInfo: FieldInfo
@@ -24,9 +25,11 @@ class PlayerTest {
         val field = Field(arrayOf(
             arrayOf(
                 EmptyCell(),
-                EmptyCell(), Wall()
+                EmptyCell(),
+                Wall()
             ),
-            arrayOf(Player(),
+            arrayOf<FieldObject>(
+                EmptyCell(),
                 EmptyCell(),
                 EmptyCell()
             ),
@@ -48,12 +51,12 @@ class PlayerTest {
 
     @Test
     fun `Should not go left`() {
-        val player = fieldInfo[Coordinates(1, 0)] as Player
-
         val mockedReader = mock(ReaderController::class.java)
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_LEFT)
 
-        player.initializeReaderController(mockedReader)
+        val player = Player(mockedReader)
+        fieldInfo[Coordinates(1, 0)] = player
+
         player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
@@ -61,7 +64,8 @@ class PlayerTest {
                 EmptyCell(),
                 EmptyCell(), Wall()
             ),
-            arrayOf(Player(),
+            arrayOf(
+                player,
                 EmptyCell(),
                 EmptyCell()
             ),
@@ -89,12 +93,12 @@ class PlayerTest {
 
     @Test
     fun `Should go right`() {
-        val player = fieldInfo[Coordinates(1, 0)] as Player
-
         val mockedReader = mock(ReaderController::class.java)
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_RIGHT)
 
-        player.initializeReaderController(mockedReader)
+        val player = Player(mockedReader)
+        fieldInfo[Coordinates(1, 0)] = player
+
         player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
@@ -103,7 +107,7 @@ class PlayerTest {
                 EmptyCell(), Wall()
             ),
             arrayOf(
-                EmptyCell(), Player(),
+                EmptyCell(), Player(mockedReader),
                 EmptyCell()
             ),
             arrayOf(
@@ -130,16 +134,16 @@ class PlayerTest {
 
     @Test
     fun `Should go up`() {
-        val player = fieldInfo[Coordinates(1, 0)] as Player
-
         val mockedReader = mock(ReaderController::class.java)
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_UP)
 
-        player.initializeReaderController(mockedReader)
+        val player = Player(mockedReader)
+        fieldInfo[Coordinates(1, 0)] = player
+
         player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
-            arrayOf(Player(), EmptyCell(), Wall()),
+            arrayOf(player, EmptyCell(), Wall()),
             arrayOf<FieldObject>(
                 EmptyCell(),
                 EmptyCell(),
@@ -169,20 +173,22 @@ class PlayerTest {
 
     @Test
     fun `Should not go to the wall`() {
-        val player = fieldInfo[Coordinates(1, 0)] as Player
-
         val mockedReader = mock(ReaderController::class.java)
         `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_DOWN)
 
-        player.initializeReaderController(mockedReader)
+        val player = Player(mockedReader)
+        fieldInfo[Coordinates(1, 0)] = player
+
         player.doTurn(fieldInfo, movementExecutor)
 
         val expected = Field(arrayOf(
             arrayOf(
                 EmptyCell(),
-                EmptyCell(), Wall()
+                EmptyCell(),
+                Wall()
             ),
-            arrayOf(Player(),
+            arrayOf(
+                player,
                 EmptyCell(),
                 EmptyCell()
             ),

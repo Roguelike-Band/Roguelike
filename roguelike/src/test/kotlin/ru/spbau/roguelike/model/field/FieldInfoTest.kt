@@ -1,25 +1,33 @@
 package ru.spbau.roguelike.model.field
 
 import org.junit.jupiter.api.BeforeEach
-import ru.spbau.roguelike.model.field.objects.characters.Player
+import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import ru.spbau.roguelike.controller.ConsoleReaderController
+import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.*
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
+import ru.spbau.roguelike.ui.ConsoleInputReader
 
 class FieldInfoTest {
     private lateinit var fieldInfo: FieldInfo
 
     @BeforeEach
     fun initFieldInfo() {
+        val mockedReader = Mockito.mock(ReaderController::class.java)
+
         val field = Field(arrayOf(
             arrayOf(
                 EmptyCell(),
-                EmptyCell(), Wall()
+                EmptyCell(),
+                Wall()
             ),
-            arrayOf(Player(),
+            arrayOf(
+                Player(mockedReader),
                 EmptyCell(),
                 EmptyCell()
             ),
@@ -62,15 +70,21 @@ class FieldInfoTest {
 
     @Test
     fun `Visibility should work`() {
+        val mockedReader = Mockito.mock(ReaderController::class.java)
         val expected = Field(arrayOf(
             arrayOf(
                 EmptyCell(),
-                EmptyCell(), InvisibleCell()
-            ),
-            arrayOf(Player(), EmptyCell(),
+                EmptyCell(),
                 InvisibleCell()
             ),
-            arrayOf(Wall(), EmptyCell(),
+            arrayOf(
+                Player(mockedReader),
+                EmptyCell(),
+                InvisibleCell()
+            ),
+            arrayOf(
+                Wall(),
+                EmptyCell(),
                 InvisibleCell()
             ),
             arrayOf<FieldObject>(

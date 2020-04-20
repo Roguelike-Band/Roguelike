@@ -9,8 +9,7 @@ import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.FieldObjectType.*
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 import ru.spbau.roguelike.model.field.objects.characters.Character
-import ru.spbau.roguelike.model.field.objects.characters.Player
-import ru.spbau.roguelike.model.field.objects.characters.monsters.DefaultMonster
+import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import ru.spbau.roguelike.model.field.objects.equipment.items.Shield
 
 /** Every cell on the field is inheritor of this class */
@@ -36,7 +35,6 @@ abstract class FieldObject {
                     EmptyCell.serializer(), value)
                 is Player -> encoder.encode(Player.serializer(), value)
                 is Wall -> encoder.encode(Wall.serializer(), value)
-                is DefaultMonster -> encoder.encode(DefaultMonster.serializer(), value)
                 is InvisibleCell -> encoder.encode(
                     InvisibleCell.serializer(), value)
                 is Shield -> encoder.encode(Shield.serializer(), value)
@@ -57,9 +55,9 @@ abstract class FieldObject {
                     decoder.json.parse(EmptyCell.serializer(), jsonObject.toString())
                 PLAYER -> decoder.json.parse(Player.serializer(), jsonObject.toString())
                 WALL -> decoder.json.parse(Wall.serializer(), jsonObject.toString())
-                DEFAULT_MONSTER -> decoder.json.parse(DefaultMonster.serializer(), jsonObject.toString())
                 INVISIBLE_CELL -> decoder.json.parse(InvisibleCell.serializer(), jsonObject.toString())
                 SHIELD -> decoder.json.parse(Shield.serializer(), jsonObject.toString())
+                else -> TODO("NOT IMPLEMENTED")
             }
         }
     }

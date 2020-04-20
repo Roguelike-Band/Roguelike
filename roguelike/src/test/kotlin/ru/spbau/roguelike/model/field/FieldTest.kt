@@ -3,22 +3,28 @@ package ru.spbau.roguelike.model.field
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
+import org.mockito.Mockito
+import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.cells.Wall
-import ru.spbau.roguelike.model.field.objects.characters.Player
+import ru.spbau.roguelike.model.field.objects.characters.monsters.PassiveMonster
+import ru.spbau.roguelike.model.field.objects.characters.player.Player
 
 class FieldTest {
     private lateinit var field: Field
 
     @BeforeEach
     fun initField() {
+        val mockedReader = Mockito.mock(ReaderController::class.java)
         field = Field(arrayOf(
             arrayOf(
                 EmptyCell(),
-                EmptyCell(), Wall()
+                EmptyCell(),
+                Wall()
             ),
-            arrayOf(Player(),
+            arrayOf(
+                Player(mockedReader),
                 EmptyCell(),
                 EmptyCell()
             ),
@@ -49,8 +55,8 @@ class FieldTest {
 
     @Test
     fun `Set should work correctly`() {
-        field[Coordinates(2, 2)] = Player()
-        assertEquals(FieldObjectType.PLAYER, field[Coordinates(2, 2)].objectType)
+        field[Coordinates(2, 2)] = PassiveMonster()
+        assertEquals(FieldObjectType.PASSIVE_MONSTER, field[Coordinates(2, 2)].objectType)
     }
 
     @Test
