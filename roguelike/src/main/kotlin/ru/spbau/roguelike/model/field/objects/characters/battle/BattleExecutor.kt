@@ -5,7 +5,7 @@ import kotlin.random.Random
 
 object BattleExecutor {
 
-    private const val MAX_CONFUSION_TIME = 5
+    private const val MAX_CONFUSION_TIME = 10
 
     /**
      * Applies the effects of attacking [firstCharacter] to [secondCharacter]

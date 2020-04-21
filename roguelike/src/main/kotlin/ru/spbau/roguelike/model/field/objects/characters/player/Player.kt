@@ -12,7 +12,7 @@ class Player(readerController: ReaderController) : Character(PlayerStrategy(read
     companion object {
         const val PLAYER_START_VISION = 5
 
-        const val PLAYER_HEALTH = 100
+        const val PLAYER_HEALTH = 50
         const val PLAYER_MAX_POWER = 10
     }
 

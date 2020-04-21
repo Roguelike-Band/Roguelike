@@ -36,6 +36,8 @@ class ConsoleGameStarter(private val lanterna: Lanterna) {
             return
         }
         logic.gameLoop()
+        lanterna.createMenu(ConsoleGameStarter(lanterna))
+        lanterna.refreshScreen()
     }
 
     /** Sets file from which logic should read start field */

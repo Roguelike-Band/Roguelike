@@ -12,7 +12,7 @@ class LogicHelper(
         private val field: Field,
         private val characters: MutableList<CharacterInfo>
 ) {
-    private  companion object {
+    private companion object {
         const val MONSTER_GENERATION_PERCENTAGE = 20
     }
 
@@ -30,12 +30,11 @@ class LogicHelper(
 
     fun updateAfterTurn() {
         deleteDead()
-        setVisibilities()
-        refreshScreens()
     }
 
     fun finishEpoch() {
         generateNewMonsters()
+        refreshScreens()
     }
 
     private fun deleteDead() {
