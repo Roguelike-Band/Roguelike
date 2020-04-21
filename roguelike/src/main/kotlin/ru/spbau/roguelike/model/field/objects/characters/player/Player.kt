@@ -9,14 +9,12 @@ import ru.spbau.roguelike.model.field.objects.characters.Character
 class Player(readerController: ReaderController) : Character(PlayerStrategy(readerController),
         Attributes(PLAYER_HEALTH, PLAYER_MAX_POWER)) {
 
-    companion object {
-        const val PLAYER_START_VISION = 5
-
+    private companion object {
         const val PLAYER_HEALTH = 50
         const val PLAYER_MAX_POWER = 10
     }
 
-    override val vision: Int = PLAYER_START_VISION
+    override val vision = 5
 
     override val objectType = FieldObjectType.PLAYER
 }

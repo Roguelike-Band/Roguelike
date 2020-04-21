@@ -7,7 +7,7 @@ import ru.spbau.roguelike.model.field.objects.characters.monsters.strategies.Cow
 class CowardMonster : AbstractMonster(CowardStrategy(), Attributes(COWARD_HEALTH, COWARD_MAX_POWER)) {
     override val objectType = FieldObjectType.COWARD_MONSTER
 
-    companion object {
+    private companion object {
         const val COWARD_HEALTH = 1
         const val COWARD_MAX_POWER = 2
     }
