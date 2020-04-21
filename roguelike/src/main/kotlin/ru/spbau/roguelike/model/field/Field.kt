@@ -36,6 +36,7 @@ class Field(
         set(newCoordinates, movingObject)
     }
 
+    /** Returns random cell that can be start cell for any character. */
     fun getRandomEmptyCell(): Coordinates {
         val possibleCoordinates = mutableListOf<Coordinates>()
         for (row in 0 until height) {

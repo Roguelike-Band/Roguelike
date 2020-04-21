@@ -4,7 +4,10 @@ import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import java.lang.IllegalStateException
 import kotlin.random.Random
 
+/** Factory for monsters */
 object MonsterFactory {
+
+    /** Create a monster of random type */
     fun generateMonster(): AbstractMonster {
         val monsters = listOf(
                 FieldObjectType.PASSIVE_MONSTER,

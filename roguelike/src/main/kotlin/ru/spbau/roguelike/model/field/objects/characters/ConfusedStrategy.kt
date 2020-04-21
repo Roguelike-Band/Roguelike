@@ -4,6 +4,12 @@ import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.FieldInfo
 import kotlin.random.Random
 
+/**
+ * Temporary strategy for any character that became confused
+ * as a result of enemy's attack.
+ * Confused characters make a random turn for [confuseTime] turns,
+ * then return to [previousStrategy].
+ */
 class ConfusedStrategy(
         private val previousStrategy: Strategy,
         private var confuseTime: Int,

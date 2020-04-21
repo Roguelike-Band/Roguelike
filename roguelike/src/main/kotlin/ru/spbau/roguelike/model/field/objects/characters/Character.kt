@@ -26,14 +26,27 @@ abstract class Character(
         return StepResult.STEP_SHOULD_BE_CANCELLED
     }
 
+    /**
+     * When this method is called, character's strategy will be replaced with
+     * [ConfusedStrategy] for given number of turns.
+     */
     fun confuse(confusionTime: Int) {
         strategy = ConfusedStrategy(strategy, confusionTime, this)
     }
 
+    /**
+     * Return to standard strategy after spending in [ConfusedStrategy]
+     * all the time character should spend there.
+     */
     fun unconfuse(previousStrategy: Strategy) {
         strategy = previousStrategy
     }
 
+    /**
+     * Take a hit. When this method is called, character's
+     * health points decrease by [hitPower].
+     * If health points reached 0, this character dies.
+     */
     fun hit(hitPower: Int) {
         attributes.hit(hitPower)
         println("new health is ${attributes.healthPoints}")

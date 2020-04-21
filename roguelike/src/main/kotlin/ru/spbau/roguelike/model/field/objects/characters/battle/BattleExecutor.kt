@@ -3,6 +3,7 @@ package ru.spbau.roguelike.model.field.objects.characters.battle
 import ru.spbau.roguelike.model.field.objects.characters.Character
 import kotlin.random.Random
 
+/** Battle-related functions. */
 object BattleExecutor {
 
     private const val MAX_CONFUSION_TIME = 10

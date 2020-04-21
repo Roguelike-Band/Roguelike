@@ -5,10 +5,20 @@ import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import java.util.ArrayDeque
 
+/**
+ * This utility class contains methods related to finding paths in field
+ * using BFS algorithm.
+ */
 class BFS(
     private val fieldInfo: FieldInfo
 ) {
 
+    /** Result of analyzing of all visible to character cells in field.
+     * @param visited set of all cells reachable from starting one.
+     * @param depth distance from starting cell to each reachable cells.
+     * @param previous for each reachable cell, distance to previous one
+     * in the optimal route from starting cell to this one.
+     */
     private data class BFSResult(
         val visited: Set<Coordinates>,
         val depth: Map<Coordinates, Int>,
@@ -64,6 +74,9 @@ class BFS(
         )
     }
 
+    /** Returns next cell in the route to the player,
+     * or null if player is not currently visible or isn't reachable by this character.
+     */
     fun getCloserToPlayer(): Coordinates? {
         val bfsResult = launch(fieldInfo.coordinates)
         val playerCell = bfsResult.visited.find {
@@ -78,13 +91,18 @@ class BFS(
         return reversedRoute.last()
     }
 
+    /** Returns one of the farthest cells from the player,
+     * or null if player is not currently visible or can't reach this character.
+     */
     fun getFartherFromPlayer(): Coordinates? {
         val bfsResultFromMonster = launch(fieldInfo.coordinates)
         val playerCell = bfsResultFromMonster.visited.find {
             fieldInfo[it].objectType == FieldObjectType.PLAYER
         } ?: return null
         val bfsResultFromPlayer = launch(playerCell)
-        return getMoveVariants(fieldInfo.coordinates, setOf()).maxBy {
+        return getMoveVariants(fieldInfo.coordinates, setOf()).filter {
+            bfsResultFromPlayer.depth[it] != null
+        }.maxBy {
             bfsResultFromPlayer.depth[it]!!
         }
     }

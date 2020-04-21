@@ -23,6 +23,7 @@ class FieldInfo(
         return field[coordinates]
     }
 
+    /** Checks if given coordinates are coordinates of some cell in a field */
     fun isGood(coordinates: Coordinates): Boolean {
         return field.isGood(coordinates)
     }

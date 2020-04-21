@@ -8,7 +8,8 @@ import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonste
 import ru.spbau.roguelike.model.field.objects.characters.monsters.MonsterFactory
 import kotlin.random.Random
 
-class LogicHelper(
+/** Helper methods for [Logic] */
+internal class LogicHelper(
         private val field: Field,
         private val characters: MutableList<CharacterInfo>
 ) {
@@ -16,23 +17,30 @@ class LogicHelper(
         const val MONSTER_GENERATION_PERCENTAGE = 20
     }
 
-    fun setVisibilities() {
+    /** Update visibility ranges for all characters */
+    internal fun setVisibilities() {
         for ((character, info) in characters.map { it.character to it.fieldInfo }) {
             info.setVisibleNeighbourhood(character.vision)
         }
     }
 
-    fun refreshScreens() {
+    /** Refresh player UI */
+    internal fun refreshScreens() {
         for (afterTurnLogic in characters.map { it.afterTurnLogic }) {
             afterTurnLogic.refreshPlayerUI()
         }
     }
 
-    fun updateAfterTurn() {
+    /** Apply effects after turn, i.e. remove dead characters */
+    internal fun updateAfterTurn() {
         deleteDead()
     }
 
-    fun finishEpoch() {
+    /**
+     * Apply effects after epoch of turns,
+     * i.e. spawn new monsters and refresh player's UI.
+     */
+    internal fun finishEpoch() {
         generateNewMonsters()
         refreshScreens()
     }
