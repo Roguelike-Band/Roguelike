@@ -5,13 +5,11 @@ import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import ru.spbau.roguelike.controller.ConsoleReaderController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.*
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
-import ru.spbau.roguelike.ui.ConsoleInputReader
 
 class FieldInfoTest {
     private lateinit var fieldInfo: FieldInfo
