@@ -23,6 +23,10 @@ class FieldInfo(
         return field[coordinates]
     }
 
+    fun isGood(coordinates: Coordinates): Boolean {
+        return field.isGood(coordinates)
+    }
+
     private fun makeCellVisible(coordinates: Coordinates) {
         isCellVisible[coordinates.row][coordinates.column] = true
     }
