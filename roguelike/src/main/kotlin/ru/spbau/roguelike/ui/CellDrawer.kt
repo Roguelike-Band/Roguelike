@@ -17,7 +17,9 @@ object CellDrawer {
             FieldObjectType.AGGRESSIVE_MONSTER -> DrawingParameters('A', TextColor.ANSI.YELLOW, TextColor.ANSI.RED)
             FieldObjectType.PASSIVE_MONSTER -> DrawingParameters('P', TextColor.ANSI.YELLOW, TextColor.ANSI.RED)
             FieldObjectType.COWARD_MONSTER -> DrawingParameters('C', TextColor.ANSI.YELLOW, TextColor.ANSI.RED)
-            FieldObjectType.SHIELD -> TODO()
+            FieldObjectType.SHIELD -> DrawingParameters('s', TextColor.ANSI.BLACK, TextColor.ANSI.RED)
+            FieldObjectType.USELESS_EQUIPMENT -> TODO()
+            FieldObjectType.RANDOM_EQUIPMENT -> DrawingParameters('r', TextColor.ANSI.BLACK, TextColor.ANSI.RED)
         }
     }
 }

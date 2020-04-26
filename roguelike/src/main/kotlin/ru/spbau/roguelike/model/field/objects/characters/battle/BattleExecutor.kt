@@ -1,6 +1,7 @@
 package ru.spbau.roguelike.model.field.objects.characters.battle
 
 import ru.spbau.roguelike.model.field.objects.characters.Character
+import java.lang.Integer.max
 import kotlin.random.Random
 
 /** Battle-related functions. */
@@ -21,13 +22,16 @@ object BattleExecutor {
 
     private fun attack(attackingCharacter: Character, defensingCharacter: Character) {
         val attackHitPower = Random.nextInt(attackingCharacter.attributes.maxPower) + 1
+        val defence = Random.nextInt(0, defensingCharacter.attributes.defence + 1)
+
+        val softenHitPower = max(0, attackHitPower - defence)
         val isConfusing = Random.nextBoolean()
 
         if (isConfusing) {
             defensingCharacter.confuse(Random.nextInt(MAX_CONFUSION_TIME) + 1)
         }
-        defensingCharacter.hit(attackHitPower)
+        defensingCharacter.hit(softenHitPower)
 
-        println("${attackingCharacter.objectType} attacks ${defensingCharacter.objectType} confusing=$isConfusing power=$attackHitPower")
+        println("${attackingCharacter.objectType} attacks ${defensingCharacter.objectType} confusing=$isConfusing power=$attackHitPower defence=$defence")
     }
 }
