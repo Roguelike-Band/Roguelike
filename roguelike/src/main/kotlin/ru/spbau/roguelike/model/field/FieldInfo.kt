@@ -1,9 +1,11 @@
 package ru.spbau.roguelike.model.field
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 
 /** Information about field that is known to character */
+@Serializable
 class FieldInfo(
     private val field: Field,
     private var currentCoordinates: Coordinates

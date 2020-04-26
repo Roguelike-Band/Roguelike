@@ -1,5 +1,6 @@
 package ru.spbau.roguelike.model.field.objects.characters
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.FieldInfo
 import kotlin.random.Random
@@ -10,6 +11,7 @@ import kotlin.random.Random
  * Confused characters make a random turn for [confuseTime] turns,
  * then return to [previousStrategy].
  */
+@Serializable
 class ConfusedStrategy(
         private val previousStrategy: Strategy,
         private var confuseTime: Int,

@@ -1,5 +1,8 @@
 package ru.spbau.roguelike.model.field.objects.characters
 
+import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.MovementExecutor
 import ru.spbau.roguelike.model.field.StepResult
@@ -7,10 +10,12 @@ import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.characters.battle.BattleExecutor
 
 /** Any alive character on a field */
+@Serializable
 abstract class Character(
-        private var strategy: Strategy,
-        val attributes: Attributes
+        var strategy: Strategy,
+        @ContextualSerialization val attributes: Attributes
 ) : FieldObject() {
+    @Transient
     var isAlive: Boolean = true
         protected set
 
@@ -19,6 +24,10 @@ abstract class Character(
     fun doTurn(fieldInfo: FieldInfo, movementExecutor: MovementExecutor) {
         val stepTo = strategy.generateStep(fieldInfo)
         movementExecutor.executeMove(this, stepTo, fieldInfo)
+    }
+
+    open fun refreshPlayerUI(fieldInfo: FieldInfo) {
+
     }
 
     override fun onStep(character: Character): StepResult {

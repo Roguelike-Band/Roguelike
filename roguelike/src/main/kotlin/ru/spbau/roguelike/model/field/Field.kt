@@ -1,10 +1,12 @@
 package ru.spbau.roguelike.model.field
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import kotlin.random.Random
 
 /** Grid with all information about game */
+@Serializable
 class Field(
     private val field: Array<Array<FieldObject>>
 ) {

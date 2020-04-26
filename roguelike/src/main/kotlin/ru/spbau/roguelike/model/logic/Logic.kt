@@ -1,8 +1,10 @@
 package ru.spbau.roguelike.model.logic
 
 import ru.spbau.roguelike.controller.DisplayController
+import ru.spbau.roguelike.controller.EquipmentNavigatorMove
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.*
+import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import java.io.File
 
@@ -19,16 +21,46 @@ class Logic(
         const val DEFAULT_WALL_PERCENTAGE = 20
     }
 
-    private val field = fileToLoadLevel?.let {
-        FieldGenerator.loadField(File(it))
-    } ?: FieldGenerator.generateField(
-        FieldGenerationParameters(DEFAULT_FIELD_HEIGHT, DEFAULT_FIELD_WIDTH, DEFAULT_WALL_PERCENTAGE)
-    )
-    private val characters = mutableListOf<CharacterInfo>()
+    private val field: Field
+    private val characters: MutableList<CharacterInfo> = mutableListOf()
+
+    init {
+        if (shouldLoadFromSave) {
+            field = SaveHandler.loadField(readerController, displayController)
+        } else {
+            field = fileToLoadLevel?.let {
+                FieldGenerator.loadField(File(it))
+            } ?: FieldGenerator.generateField(
+                FieldGenerationParameters(Logic.DEFAULT_FIELD_HEIGHT, Logic.DEFAULT_FIELD_WIDTH, Logic.DEFAULT_WALL_PERCENTAGE)
+            )
+            characters += createPlayer()
+        }
+    }
+
     private val logicHelper = LogicHelper(field, characters)
 
+    init {
+        if (shouldLoadFromSave) {
+            for (i in 0 until field.height) {
+                for (j in 0 until field.width) {
+                    val cell = field[Coordinates(i, j)]
+                    if (cell is Player) {
+                        characters += createPlayer(
+                            cell,
+                            Coordinates(i, j)
+                        )
+                    }
+                    if (cell is AbstractMonster) {
+                        logicHelper.addMonster(
+                            cell
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     fun gameLoop() {
-        populateField()
         while (characters.filter { it.isRealCharacter }.any { it.character.isAlive }) {
 
             logicHelper.setVisibilities()
@@ -40,29 +72,23 @@ class Logic(
                 logicHelper.updateAfterTurn()
             }
             logicHelper.finishEpoch()
+            SaveHandler.saveField(field)
         }
     }
 
-    private fun populateField() {
-        val coordinates = field.getRandomEmptyCell()
+    private fun createPlayer(
+        player: Player = Player(readerController, displayController),
+        coordinates: Coordinates = field.getRandomEmptyCell()
+    ): CharacterInfo {
         val movementExecutor = MovementExecutor(field)
-        val player = createPlayer(coordinates)
-        val fieldInfo = FieldInfo(field, coordinates)
-        val characterInfo = CharacterInfo(
-                isRealCharacter = true,
-                fieldInfo = fieldInfo,
-                character = player,
-                movementExecutor = movementExecutor,
-                turnLogic = TurnLogic(player, fieldInfo, movementExecutor),
-                afterTurnLogic = PlayerAfterTurnLogic(fieldInfo, displayController)
-        )
-        characters.add(characterInfo)
-    }
-
-    private fun createPlayer(coordinates: Coordinates): Player {
-        val player = Player(readerController)
         field[coordinates] = player
-
-        return player
+        val fieldInfo = FieldInfo(field, coordinates)
+        return CharacterInfo(
+            isRealCharacter = true,
+            fieldInfo = fieldInfo,
+            character = player,
+            movementExecutor = movementExecutor,
+            turnLogic = TurnLogic(player, fieldInfo, movementExecutor)
+        )
     }
 }

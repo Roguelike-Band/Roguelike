@@ -1,5 +1,7 @@
 package ru.spbau.roguelike.model.field.objects.characters.player
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.controller.Turn
 import ru.spbau.roguelike.model.field.Coordinates
@@ -10,6 +12,7 @@ import ru.spbau.roguelike.model.field.objects.characters.Strategy
  * Strategy for player's turns.
  * Waits for input and then moves as instructed by player.
  */
+@Serializable
 class PlayerStrategy(private val readerController: ReaderController) : Strategy {
     override fun generateStep(fieldInfo: FieldInfo): Coordinates {
         val turn = readerController.readTurn()

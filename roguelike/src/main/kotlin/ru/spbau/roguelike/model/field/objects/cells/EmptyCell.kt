@@ -10,7 +10,7 @@ import ru.spbau.roguelike.model.field.objects.characters.Character
 /** Just an empty cell on a field */
 @Serializable
 class EmptyCell : FieldObject() {
-    override val objectType = FieldObjectType.EMPTY_CELL
+    @Transient override val objectType = FieldObjectType.EMPTY_CELL
     @Transient override val canBeCharacterStartCell = true
 
     override fun onStep(character: Character): StepResult {

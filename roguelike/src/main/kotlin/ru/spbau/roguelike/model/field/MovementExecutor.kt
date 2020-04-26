@@ -1,8 +1,10 @@
 package ru.spbau.roguelike.model.field
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
 /** Class for processing characters' moves */
+@Serializable
 class MovementExecutor(private val field: Field) {
     fun executeMove(character: Character, to: Coordinates, charactersFieldInfo: FieldInfo) {
         @Suppress("ControlFlowWithEmptyBody")
