@@ -52,7 +52,8 @@ class Logic(
                     }
                     if (cell is AbstractMonster) {
                         logicHelper.addMonster(
-                            cell
+                            cell,
+                            Coordinates(i, j)
                         )
                     }
                 }
@@ -78,11 +79,11 @@ class Logic(
 
     private fun createPlayer(
         player: Player = Player(readerController, displayController),
-        coordinates: Coordinates = field.getRandomEmptyCell()
+        coordinates: Coordinates = field.getRandomEmptyCell(),
+        fieldInfo: FieldInfo = FieldInfo(field, coordinates)
     ): CharacterInfo {
         val movementExecutor = MovementExecutor(field)
         field[coordinates] = player
-        val fieldInfo = FieldInfo(field, coordinates)
         return CharacterInfo(
             isRealCharacter = true,
             fieldInfo = fieldInfo,
