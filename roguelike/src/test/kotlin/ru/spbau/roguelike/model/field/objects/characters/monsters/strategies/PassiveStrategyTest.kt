@@ -53,7 +53,7 @@ class PassiveStrategyTest {
         ))
         val fieldInfo = FieldInfo(field, Coordinates(2, 1))
 
-        val step = strategy.generateStep(fieldInfo) as MoveCommand
+        val step = strategy.generateStep(newMonster, fieldInfo) as MoveCommand
 
         assertEquals(Coordinates(2, 1), step.stepTo)
     }

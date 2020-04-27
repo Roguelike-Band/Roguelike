@@ -46,7 +46,7 @@ class CowardStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(5)
 
-        val newCoordinates = strategy.generateStep(fieldInfo) as MoveCommand
+        val newCoordinates = strategy.generateStep(newMonster, fieldInfo) as MoveCommand
 
         assertTrue(newCoordinates.stepTo in listOf(Coordinates(0, 1), Coordinates(1, 2), Coordinates(2, 1)))
     }
@@ -64,7 +64,7 @@ class CowardStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(5)
 
-        val newCoordinates = strategy.generateStep(fieldInfo) as MoveCommand
+        val newCoordinates = strategy.generateStep(newMonster, fieldInfo) as MoveCommand
 
         assertTrue(newCoordinates.stepTo in listOf(Coordinates(0, 1)))
     }
@@ -82,7 +82,7 @@ class CowardStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(0)
 
-        val newCoordinates = strategy.generateStep(fieldInfo) as MoveCommand
+        val newCoordinates = strategy.generateStep(newMonster, fieldInfo) as MoveCommand
 
         assertTrue(newCoordinates.stepTo in listOf(Coordinates(1, 1)))
     }
