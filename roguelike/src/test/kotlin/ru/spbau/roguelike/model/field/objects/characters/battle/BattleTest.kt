@@ -21,7 +21,7 @@ class BattleTest {
         }
         BattleExecutor.executeBattle(firstCharacter, secondCharacter)
 
-        assertTrue(firstCharacter.attributes.healthPoints < 6 && secondCharacter.attributes.healthPoints < 6)
+        assertTrue(firstCharacter.attributes.healthPoints <= 6 && secondCharacter.attributes.healthPoints <= 6)
     }
 
     @Test
@@ -29,7 +29,7 @@ class BattleTest {
         val firstCharacter = object : AbstractMonster(PassiveStrategy(), Attributes(6, 5)) {
             override val objectType = FieldObjectType.COWARD_MONSTER
         }
-        val secondCharacter = object : AbstractMonster(PassiveStrategy(), Attributes(1, 5)) {
+        val secondCharacter = object : AbstractMonster(PassiveStrategy(), Attributes(0, 5)) {
             override val objectType = FieldObjectType.COWARD_MONSTER
         }
         BattleExecutor.executeBattle(firstCharacter, secondCharacter)
