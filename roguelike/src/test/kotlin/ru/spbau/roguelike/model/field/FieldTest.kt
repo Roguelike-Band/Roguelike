@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.mockito.Mockito
+import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
@@ -17,6 +18,8 @@ class FieldTest {
     @BeforeEach
     fun initField() {
         val mockedReader = Mockito.mock(ReaderController::class.java)
+        val mockedDisplay = Mockito.mock(DisplayController::class.java)
+
         field = Field(arrayOf(
             arrayOf(
                 EmptyCell(),
@@ -24,7 +27,7 @@ class FieldTest {
                 Wall()
             ),
             arrayOf(
-                Player(mockedReader),
+                Player(mockedReader, mockedDisplay),
                 EmptyCell(),
                 EmptyCell()
             ),

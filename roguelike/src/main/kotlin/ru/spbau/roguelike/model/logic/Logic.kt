@@ -1,7 +1,6 @@
 package ru.spbau.roguelike.model.logic
 
 import ru.spbau.roguelike.controller.DisplayController
-import ru.spbau.roguelike.controller.EquipmentNavigatorMove
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.*
 import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
@@ -12,7 +11,8 @@ import java.io.File
 class Logic(
     private val displayController: DisplayController,
     private val readerController: ReaderController,
-    fileToLoadLevel: String? = null
+    fileToLoadLevel: String? = null,
+    shouldLoadFromSave: Boolean = false
 ) {
 
     private companion object {

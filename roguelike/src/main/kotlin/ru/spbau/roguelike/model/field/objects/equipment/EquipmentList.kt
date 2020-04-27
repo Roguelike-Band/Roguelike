@@ -1,5 +1,6 @@
 package ru.spbau.roguelike.model.field.objects.equipment
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.characters.Attributes
 
 /**
@@ -7,6 +8,7 @@ import ru.spbau.roguelike.model.field.objects.characters.Attributes
  *
  * For each item we store if it
  */
+@Serializable
 class EquipmentList {
     private val allEquipment = arrayListOf<Equipment>()
     private val isPutOn = arrayListOf<Boolean>()

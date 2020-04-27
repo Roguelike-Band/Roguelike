@@ -3,6 +3,7 @@ package ru.spbau.roguelike.model.field.objects.characters.monsters.strategies
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
@@ -26,6 +27,7 @@ class PassiveStrategyTest {
         }
 
         val mockedReader = Mockito.mock(ReaderController::class.java)
+        val mockedDisplay = Mockito.mock(DisplayController::class.java)
 
         val field = Field(arrayOf(
             arrayOf(
@@ -34,7 +36,7 @@ class PassiveStrategyTest {
                 Wall()
             ),
             arrayOf(
-                Player(mockedReader),
+                Player(mockedReader, mockedDisplay),
                 EmptyCell(),
                 EmptyCell()
             ),

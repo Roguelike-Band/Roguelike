@@ -5,6 +5,7 @@ import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
@@ -17,6 +18,7 @@ class FieldInfoTest {
     @BeforeEach
     fun initFieldInfo() {
         val mockedReader = Mockito.mock(ReaderController::class.java)
+        val mockedDisplay = Mockito.mock(DisplayController::class.java)
 
         val field = Field(arrayOf(
             arrayOf(
@@ -25,7 +27,7 @@ class FieldInfoTest {
                 Wall()
             ),
             arrayOf(
-                Player(mockedReader),
+                Player(mockedReader, mockedDisplay),
                 EmptyCell(),
                 EmptyCell()
             ),
@@ -69,6 +71,7 @@ class FieldInfoTest {
     @Test
     fun `Visibility should work`() {
         val mockedReader = Mockito.mock(ReaderController::class.java)
+        val mockedDisplay = Mockito.mock(DisplayController::class.java)
         val expected = Field(arrayOf(
             arrayOf(
                 EmptyCell(),
@@ -76,7 +79,7 @@ class FieldInfoTest {
                 InvisibleCell()
             ),
             arrayOf(
-                Player(mockedReader),
+                Player(mockedReader, mockedDisplay),
                 EmptyCell(),
                 InvisibleCell()
             ),

@@ -7,7 +7,7 @@ import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 /** Information about field that is known to character */
 @Serializable
 class FieldInfo(
-    private val field: Field,
+    val field: Field,
     private var currentCoordinates: Coordinates
 ) {
     val height = field.height

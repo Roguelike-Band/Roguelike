@@ -5,7 +5,11 @@ import com.googlecode.lanterna.TerminalPosition
 import com.googlecode.lanterna.TerminalSize
 import com.googlecode.lanterna.TextColor
 import com.googlecode.lanterna.graphics.TextGraphics
-import com.googlecode.lanterna.gui2.*
+import com.googlecode.lanterna.gui2.ActionListBox
+import com.googlecode.lanterna.gui2.BasicWindow
+import com.googlecode.lanterna.gui2.Label
+import com.googlecode.lanterna.gui2.MultiWindowTextGUI
+import com.googlecode.lanterna.gui2.Panel
 import com.googlecode.lanterna.gui2.dialogs.FileDialogBuilder
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton
@@ -14,6 +18,7 @@ import com.googlecode.lanterna.screen.TerminalScreen
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import com.googlecode.lanterna.terminal.Terminal
 import com.googlecode.lanterna.terminal.TerminalResizeListener
+import ru.spbau.roguelike.model.logic.SaveHandler
 
 /**
  * Wrapper above Lanterna library
@@ -107,6 +112,12 @@ class Lanterna {
         val window = BasicWindow()
         window.component = panel
 
+        if (SaveHandler.checkIfSaveExists()) {
+            actionListBox.addItem("Continue") {
+                gameStarter.enableLoadFromSave()
+                gameStarter.start()
+            }
+        }
         actionListBox.addItem("Load field from file") {
             val file = FileDialogBuilder().build().showDialog(textGUI)
             gameStarter.setFieldFileName(file.absolutePath)

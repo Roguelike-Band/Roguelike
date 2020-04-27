@@ -11,6 +11,7 @@ import java.lang.IllegalArgumentException
  */
 class ConsoleGameStarter(private val lanterna: Lanterna) {
     private var fieldFileName: String? = null
+    private var loadFromSave: Boolean = false
 
     /**
      * Starts game.
@@ -29,7 +30,7 @@ class ConsoleGameStarter(private val lanterna: Lanterna) {
 
         val logic: Logic
         try {
-            logic = Logic(consoleDisplayController, consoleReaderController, fieldFileName)
+            logic = Logic(consoleDisplayController, consoleReaderController, fieldFileName, loadFromSave)
         } catch(e: IllegalArgumentException) {
             lanterna.printErrorMessage("Wrong field format")
             return
@@ -45,5 +46,9 @@ class ConsoleGameStarter(private val lanterna: Lanterna) {
     /** Sets file from which logic should read start field */
     fun setFieldFileName(fileName: String?) {
         fieldFileName = fileName
+    }
+
+    fun enableLoadFromSave() {
+         loadFromSave = true
     }
 }

@@ -5,7 +5,11 @@ import ru.spbau.roguelike.model.field.objects.equipment.Equipment
 
 /** State of a character */
 @Serializable
-class Attributes(mHealthPoints: Int, mMaxPower: Int, mDefence: Int = 0) {
+class Attributes(
+    private val mHealthPoints: Int,
+    private val mMaxPower: Int,
+    private val mDefence: Int = 0
+) {
 
     /** Number of current health points of this character */
     var healthPoints = mHealthPoints

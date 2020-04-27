@@ -1,10 +1,12 @@
 package ru.spbau.roguelike.model.field.objects.equipment
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
+@Serializable
 class Equipment private constructor(
         override val objectType: FieldObjectType,
         val defenceDelta: Int,

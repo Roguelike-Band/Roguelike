@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
@@ -22,10 +23,11 @@ class CowardStrategyTest {
     @BeforeEach
     fun initFieldInfo() {
         val mockedReader = Mockito.mock(ReaderController::class.java)
+        val mockedDisplay = Mockito.mock(DisplayController::class.java)
 
         field = Field(arrayOf(
             arrayOf(EmptyCell(),          EmptyCell(), Wall()),
-            arrayOf(Player(mockedReader), EmptyCell(), EmptyCell()),
+            arrayOf(Player(mockedReader, mockedDisplay), EmptyCell(), EmptyCell()),
             arrayOf(Wall(),               EmptyCell(), EmptyCell()),
             arrayOf(Wall(),               EmptyCell(), EmptyCell())
         ))
