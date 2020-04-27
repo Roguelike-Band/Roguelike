@@ -66,6 +66,7 @@ class Logic(
 
             logicHelper.setVisibilities()
             logicHelper.refreshScreens()
+            characters.sortBy { it.character.id }
 
             for (turnLogic in characters.map { it.turnLogic }) {
                 turnLogic.doTurn()
