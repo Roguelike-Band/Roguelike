@@ -5,18 +5,17 @@ import kotlinx.serialization.Encoder
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialDescriptor
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeStructure
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerialModule
 import kotlinx.serialization.modules.SerializersModule
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.Field
-import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
+import ru.spbau.roguelike.model.field.objects.characters.Attributes
 import ru.spbau.roguelike.model.field.objects.characters.Character
 import ru.spbau.roguelike.model.field.objects.characters.ConfusedStrategy
 import ru.spbau.roguelike.model.field.objects.characters.Strategy
@@ -29,21 +28,34 @@ import ru.spbau.roguelike.model.field.objects.characters.monsters.strategies.Cow
 import ru.spbau.roguelike.model.field.objects.characters.monsters.strategies.PassiveStrategy
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import ru.spbau.roguelike.model.field.objects.equipment.Equipment
+import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
 import java.io.File
 
 class PlayerSerializer(private val readerController: ReaderController?, private val displayController: DisplayController?) : KSerializer<Player> {
 
     override fun serialize(encoder: Encoder, value: Player) {
-        encoder.encodeStructure(descriptor) {
-
-        }
+        val composite = encoder.beginStructure(descriptor)
+        composite.encodeSerializableElement(descriptor, 0, Attributes.serializer(), value.attributes)
+        composite.encodeSerializableElement(descriptor, 1, EquipmentList.serializer(), value.equipmentList)
+        composite.endStructure(descriptor)
     }
 
     override fun deserialize(decoder: Decoder): Player {
-        return Player(readerController!!, displayController!!)
+        val composite = decoder.beginStructure(descriptor)
+        val attributes = composite.decodeSerializableElement(descriptor, 0, Attributes.serializer())
+        val equipmentList = composite.decodeSerializableElement(descriptor, 1, EquipmentList.serializer())
+        composite.endStructure(descriptor)
+
+        val player = Player(readerController!!, displayController!!)
+        player.attributes = attributes
+        player.equipmentList = equipmentList
+        return player
     }
 
-    override val descriptor: SerialDescriptor = SerialDescriptor("player")
+    override val descriptor: SerialDescriptor = SerialDescriptor("player") {
+        element("attributes", Attributes.serializer().descriptor)
+        element("equipmentList", EquipmentList.serializer().descriptor)
+    }
 }
 
 internal object SaveHandler {

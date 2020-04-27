@@ -15,7 +15,7 @@ import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
 @Serializable
 abstract class Character(
         var strategy: Strategy,
-        @ContextualSerialization val attributes: Attributes
+        @ContextualSerialization var attributes: Attributes
 ) : FieldObject() {
     @Transient
     var isAlive: Boolean = true
@@ -23,7 +23,7 @@ abstract class Character(
 
     abstract val vision: Int
 
-    val equipmentList = EquipmentList()
+    var equipmentList = EquipmentList()
 
     val id = lastCharacterId++
 
