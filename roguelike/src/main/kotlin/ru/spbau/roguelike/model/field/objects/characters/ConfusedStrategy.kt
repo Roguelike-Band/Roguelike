@@ -14,10 +14,9 @@ import kotlin.random.Random
 @Serializable
 class ConfusedStrategy(
         private val previousStrategy: Strategy,
-        private var confuseTime: Int,
-        private val character: Character
+        private var confuseTime: Int
 ) : Strategy {
-    override fun generateStep(fieldInfo: FieldInfo): Command {
+    override fun generateStep(character: Character, fieldInfo: FieldInfo): Command {
         --confuseTime
         if (confuseTime == 0) {
             character.unconfuse(previousStrategy)

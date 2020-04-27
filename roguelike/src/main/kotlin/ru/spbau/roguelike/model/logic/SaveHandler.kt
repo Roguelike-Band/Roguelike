@@ -4,20 +4,13 @@ import kotlinx.serialization.Decoder
 import kotlinx.serialization.Encoder
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialDescriptor
-import kotlinx.serialization.Serializer
-import kotlinx.serialization.encode
 import kotlinx.serialization.encodeStructure
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import kotlinx.serialization.modules.SerialModule
 import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.serializersModule
-import kotlinx.serialization.serializer
-import ru.spbau.roguelike.controller.ConsoleDisplayController
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.Field
-import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
@@ -33,7 +26,7 @@ import ru.spbau.roguelike.model.field.objects.characters.monsters.strategies.Agg
 import ru.spbau.roguelike.model.field.objects.characters.monsters.strategies.CowardStrategy
 import ru.spbau.roguelike.model.field.objects.characters.monsters.strategies.PassiveStrategy
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
-import ru.spbau.roguelike.model.field.objects.characters.player.PlayerStrategy
+import ru.spbau.roguelike.model.field.objects.equipment.Equipment
 import java.io.File
 
 class PlayerSerializer(private val readerController: ReaderController?, private val displayController: DisplayController?) : KSerializer<Player> {
@@ -60,6 +53,7 @@ internal object SaveHandler {
             EmptyCell::class with EmptyCell.serializer()
             InvisibleCell::class with InvisibleCell.serializer()
             Wall::class with Wall.serializer()
+            Equipment::class with Equipment.serializer()
 
             Player::class with PlayerSerializer(readerController, displayController)
 

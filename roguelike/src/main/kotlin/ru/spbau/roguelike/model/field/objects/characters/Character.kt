@@ -26,7 +26,7 @@ abstract class Character(
 
     /** Method that is called by logic to make a turn */
     fun doTurn(fieldInfo: FieldInfo, movementExecutor: MovementExecutor) {
-        val command = strategy.generateStep(fieldInfo)
+        val command = strategy.generateStep(this, fieldInfo)
         command.execute(this, movementExecutor, fieldInfo)
     }
 
@@ -57,7 +57,7 @@ abstract class Character(
      * [ConfusedStrategy] for given number of turns.
      */
     fun confuse(confusionTime: Int) {
-        strategy = ConfusedStrategy(strategy, confusionTime, this)
+        strategy = ConfusedStrategy(strategy, confusionTime)
     }
 
     /**

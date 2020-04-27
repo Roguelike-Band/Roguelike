@@ -17,7 +17,7 @@ import ru.spbau.roguelike.model.field.objects.characters.*
  */
 @Serializable
 class PlayerStrategy(private val readerController: ReaderController) : Strategy {
-    override fun generateStep(fieldInfo: FieldInfo): Command {
+    override fun generateStep(character: Character, fieldInfo: FieldInfo): Command {
         val turn = readerController.readTurn()
         return when (turn) {
             is MoveUserCommand -> generateMovementTurn(turn, fieldInfo)

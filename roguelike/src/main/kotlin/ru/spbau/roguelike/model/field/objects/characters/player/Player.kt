@@ -24,7 +24,7 @@ class Player(
 
     companion object {
         private const val PLAYER_HEALTH = 50
-        private const val PLAYER_MAX_POWER = 1
+        private const val PLAYER_MAX_POWER = 10
     }
 
     override val vision = 5
