@@ -2,6 +2,8 @@ package ru.spbau.roguelike.model.field.objects.characters.monsters.strategies
 
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.FieldInfo
+import ru.spbau.roguelike.model.field.objects.characters.Command
+import ru.spbau.roguelike.model.field.objects.characters.MoveCommand
 import ru.spbau.roguelike.model.field.objects.characters.Strategy
 
 /**
@@ -14,7 +16,7 @@ class CowardStrategy : Strategy {
         return fieldInfo.coordinates
     }
 
-    override fun generateStep(fieldInfo: FieldInfo): Coordinates {
-        return BFS(fieldInfo).getFartherFromPlayer() ?: generateStepWithNoVisiblePlayer(fieldInfo)
+    override fun generateStep(fieldInfo: FieldInfo): Command {
+        return MoveCommand(BFS(fieldInfo).getFartherFromPlayer() ?: generateStepWithNoVisiblePlayer(fieldInfo))
     }
 }

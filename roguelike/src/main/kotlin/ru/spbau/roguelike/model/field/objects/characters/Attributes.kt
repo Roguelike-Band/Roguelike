@@ -1,5 +1,7 @@
 package ru.spbau.roguelike.model.field.objects.characters
 
+import ru.spbau.roguelike.model.field.objects.equipment.Equipment
+
 /** State of a character */
 class Attributes(mHealthPoints: Int, mMaxPower: Int, mDefence: Int = 0) {
 
@@ -22,5 +24,39 @@ class Attributes(mHealthPoints: Int, mMaxPower: Int, mDefence: Int = 0) {
      */
     fun hit(hitPower: Int) {
         healthPoints -= hitPower
+    }
+
+    fun addEquipment(item: Equipment): Boolean {
+        if (defence + item.defenceDelta < 0) {
+            return false
+        }
+        if (maxPower + item.powerDelta < 0) {
+            return false
+        }
+        if (healthPoints + item.healthDelta < 0) {
+            return false
+        }
+
+        defence += item.defenceDelta
+        maxPower += item.powerDelta
+        healthPoints += item.healthDelta
+        return true
+    }
+
+    fun removeEquipment(item: Equipment): Boolean {
+        if (defence - item.defenceDelta < 0) {
+            return false
+        }
+        if (maxPower - item.powerDelta < 0) {
+            return false
+        }
+        if (healthPoints - item.healthDelta < 0) {
+            return false
+        }
+
+        defence -= item.defenceDelta
+        maxPower -= item.powerDelta
+        healthPoints -= item.healthDelta
+        return true
     }
 }

@@ -9,5 +9,5 @@ import ru.spbau.roguelike.model.field.FieldInfo
  */
 interface Strategy {
     /** Generate next cell this character will go to */
-    fun generateStep(fieldInfo: FieldInfo): Coordinates
+    fun generateStep(fieldInfo: FieldInfo): Command
 }

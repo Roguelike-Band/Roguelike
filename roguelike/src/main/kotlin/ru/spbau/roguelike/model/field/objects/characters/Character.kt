@@ -21,8 +21,8 @@ abstract class Character(
 
     /** Method that is called by logic to make a turn */
     fun doTurn(fieldInfo: FieldInfo, movementExecutor: MovementExecutor) {
-        val stepTo = strategy.generateStep(fieldInfo)
-        movementExecutor.executeMove(this, stepTo, fieldInfo)
+        val command = strategy.generateStep(fieldInfo)
+        command.execute(this, movementExecutor, fieldInfo)
     }
 
     override fun onStep(character: Character): StepResult {
@@ -36,11 +36,11 @@ abstract class Character(
     }
 
     fun putOnEquipment(indexInEquipmentList: Int) {
-
+        equipmentList.putOn(indexInEquipmentList, attributes)
     }
 
     fun takeOffEquipment(indexInEquipmentList: Int) {
-
+        equipmentList.takeOff(indexInEquipmentList, attributes)
     }
 
     /**

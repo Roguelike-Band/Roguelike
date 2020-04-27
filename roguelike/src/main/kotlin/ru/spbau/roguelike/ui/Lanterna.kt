@@ -63,6 +63,7 @@ class Lanterna {
         }
     }
 
+    /** Fills rectangle from <[leftRow], [leftColumn]>  to <[rightRow], [rightColumn]> with empty cells of [color] */
     fun fillRectangle(leftColumn: Int, rightColumn: Int, leftRow: Int, rightRow: Int, color: TextColor.ANSI) {
         textGraphics.apply {
             val previousBackgroundColor = backgroundColor

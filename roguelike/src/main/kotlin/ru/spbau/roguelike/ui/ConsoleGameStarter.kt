@@ -19,8 +19,10 @@ class ConsoleGameStarter(private val lanterna: Lanterna) {
      */
     fun start() {
         lanterna.prepareGame()
-        val consoleUIOutput = ConsoleUIOutput(lanterna)
-        val consoleInputReader = ConsoleInputReader(lanterna)
+
+        val status = UIStatus()
+        val consoleUIOutput = ConsoleUIOutput(lanterna, status)
+        val consoleInputReader = ConsoleInputReader(lanterna, status, consoleUIOutput)
 
         val consoleDisplayController = ConsoleDisplayController(consoleUIOutput)
         val consoleReaderController = ConsoleReaderController(consoleInputReader)

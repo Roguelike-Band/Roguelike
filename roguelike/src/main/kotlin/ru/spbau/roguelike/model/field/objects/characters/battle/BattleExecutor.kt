@@ -21,7 +21,7 @@ object BattleExecutor {
     }
 
     private fun attack(attackingCharacter: Character, defensingCharacter: Character) {
-        val attackHitPower = Random.nextInt(attackingCharacter.attributes.maxPower) + 1
+        val attackHitPower = Random.nextInt(attackingCharacter.attributes.maxPower + 1)
         val defence = Random.nextInt(0, defensingCharacter.attributes.defence + 1)
 
         val softenHitPower = max(0, attackHitPower - defence)

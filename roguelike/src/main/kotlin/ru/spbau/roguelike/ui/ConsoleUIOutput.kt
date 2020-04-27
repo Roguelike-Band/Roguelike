@@ -14,10 +14,8 @@ import java.lang.Integer.min
 /**
  * Class for showing game status to console
  */
-class ConsoleUIOutput(private val lanterna: Lanterna) {
-    private var field: FieldInfo? = null
+class ConsoleUIOutput(private val lanterna: Lanterna, private val status: UIStatus) {
     private var terminalSize = lanterna.getTerminalSize()
-    private var equipmentCursor = 0
 
     companion object {
         const val MIN_TERMINAL_ROWS = 10
@@ -34,10 +32,10 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
 
     private fun onTerminalResized(newSize: TerminalSize) {
         terminalSize = newSize
-        if (field == null) {
+        if (status.fieldInfo == null) {
             return
         }
-        refreshGameField(field!!)
+        refreshGameField(status.fieldInfo!!)
     }
 
     /** Updates field on screen */
@@ -52,8 +50,9 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
         if (currentCell is Player) {
             val player: Player = currentCell
 
-            val equipment = player.equipmentList
-            refreshEquipment(equipment, getEquipmentScreenPart())
+            status.equipmentList = player.equipmentList
+            status.reloadCursor()
+            refreshEquipment(status.equipmentList!!, getEquipmentScreenPart())
 
             val attributes = player.attributes
             refreshAttributes(attributes, getAttributesScreenPart())
@@ -63,7 +62,7 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
     }
 
     private fun refreshField(field: FieldInfo, screenPart: ScreenPart) {
-        this.field = field
+        status.fieldInfo = field
         val fieldShow = getFieldShow(screenPart)
         for (fieldRow in fieldShow.leftRow..fieldShow.rightRow) {
             for (fieldColumn in fieldShow.leftColumn..fieldShow.rightColumn) {
@@ -96,7 +95,7 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
         )
 
         val equipmentPart = getEquipmentShow(
-                equipmentCursor,
+                status.equipmentCursor,
                 screenPart.rightColumn - screenPart.leftColumn + 1,
                 equipment.size
         )
@@ -108,7 +107,7 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
             )
         }
 
-        val cursorColumn = equipmentCursor - equipmentPart.leftIndex + screenPart.leftColumn
+        val cursorColumn = status.equipmentCursor - equipmentPart.leftIndex + screenPart.leftColumn
         lanterna.drawCell(
                 cursorColumn,
                 screenPart.leftRow + 2,
@@ -160,14 +159,14 @@ class ConsoleUIOutput(private val lanterna: Lanterna) {
     /** Returns part of field that will be shown on a screen */
     private fun getFieldShow(screenPart: ScreenPart): FieldPart {
         val (leftRow, rightRow) = getBorders(
-            field!!.coordinates.row,
+            status.fieldInfo!!.coordinates.row,
             screenPart.rightRow - screenPart.leftRow + 1,
-            field!!.height
+            status.fieldInfo!!.height
         )
         val (leftColumn, rightColumn) = getBorders(
-            field!!.coordinates.column,
+            status.fieldInfo!!.coordinates.column,
             screenPart.rightColumn - screenPart.leftRow + 1,
-            field!!.width
+            status.fieldInfo!!.width
         )
         return FieldPart(leftRow, rightRow, leftColumn, rightColumn)
     }
