@@ -49,7 +49,7 @@ internal class LogicHelper(
     private fun deleteDead() {
         for ((character, fieldInfo) in characters.map { it.character to it.fieldInfo }) {
             if (!character.isAlive && field[fieldInfo.coordinates] === character) {
-                field[fieldInfo.coordinates] = EquipmentGenerator.generate()
+                field[fieldInfo.coordinates] = EquipmentGenerator.generateRandom()
             }
         }
     }

@@ -1,7 +1,9 @@
 package ru.spbau.roguelike.ui
 
 import com.googlecode.lanterna.SGR
+import com.googlecode.lanterna.TerminalPosition
 import com.googlecode.lanterna.TerminalSize
+import com.googlecode.lanterna.TextColor
 import com.googlecode.lanterna.graphics.TextGraphics
 import com.googlecode.lanterna.gui2.*
 import com.googlecode.lanterna.gui2.dialogs.FileDialogBuilder
@@ -48,6 +50,32 @@ class Lanterna {
     /** Blocking input read */
     fun readInput(): KeyStroke {
         return terminal.readInput()
+    }
+
+    /** Horizontally writes text on screen starting from <[row], [column]> */
+    fun writeText(column: Int, row: Int, textParameters: TextParameters) {
+        for ((char, index) in textParameters.text.toCharArray() zip textParameters.text.indices) {
+            drawCell(
+                    column + index,
+                    row,
+                    DrawingParameters(char, textParameters.backgroundColor, textParameters.foregroundColor)
+            )
+        }
+    }
+
+    fun fillRectangle(leftColumn: Int, rightColumn: Int, leftRow: Int, rightRow: Int, color: TextColor.ANSI) {
+        textGraphics.apply {
+            val previousBackgroundColor = backgroundColor
+
+            backgroundColor = color
+            fillRectangle(
+                    TerminalPosition(leftColumn, leftRow),
+                    TerminalSize(rightColumn - leftColumn + 1, rightRow - leftRow + 1),
+                    ' '
+            )
+
+            backgroundColor = previousBackgroundColor
+        }
     }
 
     /** Draws cell in game mode */
@@ -116,3 +144,16 @@ class Lanterna {
         refreshScreen()
     }
 }
+
+/** Parameters for drawing cell on a console */
+class DrawingParameters(
+        val symbol: Char,
+        val backgroundColor: TextColor = TextColor.ANSI.DEFAULT,
+        val foregroundColor: TextColor = TextColor.ANSI.DEFAULT
+)
+
+class TextParameters(
+        val text: String,
+        val backgroundColor: TextColor = TextColor.ANSI.DEFAULT,
+        val foregroundColor: TextColor = TextColor.ANSI.DEFAULT
+)

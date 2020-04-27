@@ -24,9 +24,3 @@ object CellDrawer {
     }
 }
 
-/** Parameters for drawing cell on a console */
-class DrawingParameters(
-    val symbol: Char,
-    val backgroundColor: TextColor = TextColor.ANSI.DEFAULT,
-    val foregroundColor: TextColor = TextColor.ANSI.DEFAULT
-)
