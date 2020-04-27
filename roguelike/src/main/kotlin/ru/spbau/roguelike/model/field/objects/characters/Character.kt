@@ -28,7 +28,7 @@ abstract class Character(
     val id = lastCharacterId++
 
     companion object {
-        private var lastCharacterId: Int = 0
+        var lastCharacterId: Int = 0
     }
 
     /** Method that is called by logic to make a turn */

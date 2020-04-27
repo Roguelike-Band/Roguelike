@@ -3,6 +3,7 @@ package ru.spbau.roguelike.model.logic
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.*
+import ru.spbau.roguelike.model.field.objects.characters.Character
 import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import java.io.File
@@ -49,6 +50,7 @@ class Logic(
                     }
                 }
             }
+            Character.lastCharacterId = gameInfo.lastCharacterId
         } else {
             field = fileToLoadLevel?.let {
                 FieldGenerator.loadField(File(it))
@@ -75,9 +77,11 @@ class Logic(
             logicHelper.finishEpoch()
             SaveHandler.saveGame(GameInfo(
                 field,
-                characters.map { it.character.id to it.fieldInfo.isCellVisible }.toMap()
+                characters.map { it.character.id to it.fieldInfo.isCellVisible }.toMap(),
+                Character.lastCharacterId
             ))
         }
+        SaveHandler.deleteSave()
     }
 
     private fun createPlayer(

@@ -104,5 +104,6 @@ internal object SaveHandler {
 @Serializable
 data class GameInfo(
     val field: Field,
-    val fieldInfos: Map<Int, Array<BooleanArray>>
+    val fieldInfos: Map<Int, Array<BooleanArray>>,
+    val lastCharacterId: Int
 )
