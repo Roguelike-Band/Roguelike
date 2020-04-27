@@ -1,10 +1,11 @@
 package ru.spbau.roguelike.model.field.objects.characters
 
 import kotlinx.serialization.Serializable
+import ru.spbau.roguelike.model.field.objects.equipment.Equipment
 
 /** State of a character */
 @Serializable
-class Attributes(private val mHealthPoints: Int, private val mMaxPower: Int) {
+class Attributes(mHealthPoints: Int, mMaxPower: Int, mDefence: Int = 0) {
 
     /** Number of current health points of this character */
     var healthPoints = mHealthPoints
@@ -14,6 +15,10 @@ class Attributes(private val mHealthPoints: Int, private val mMaxPower: Int) {
     var maxPower = mMaxPower
         private set
 
+    /** Hit power that charecter can nullify */
+    var defence = mDefence
+        private set
+
     /**
      * Take a hit. When this method is called, character's
      * health points decrease by [hitPower].
@@ -21,5 +26,39 @@ class Attributes(private val mHealthPoints: Int, private val mMaxPower: Int) {
      */
     fun hit(hitPower: Int) {
         healthPoints -= hitPower
+    }
+
+    fun addEquipment(item: Equipment): Boolean {
+        if (defence + item.defenceDelta < 0) {
+            return false
+        }
+        if (maxPower + item.powerDelta < 0) {
+            return false
+        }
+        if (healthPoints + item.healthDelta < 0) {
+            return false
+        }
+
+        defence += item.defenceDelta
+        maxPower += item.powerDelta
+        healthPoints += item.healthDelta
+        return true
+    }
+
+    fun removeEquipment(item: Equipment): Boolean {
+        if (defence - item.defenceDelta < 0) {
+            return false
+        }
+        if (maxPower - item.powerDelta < 0) {
+            return false
+        }
+        if (healthPoints - item.healthDelta < 0) {
+            return false
+        }
+
+        defence -= item.defenceDelta
+        maxPower -= item.powerDelta
+        healthPoints -= item.healthDelta
+        return true
     }
 }

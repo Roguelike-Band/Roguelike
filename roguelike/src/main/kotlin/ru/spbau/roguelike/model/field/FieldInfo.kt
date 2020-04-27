@@ -15,7 +15,9 @@ class FieldInfo(
     private val isCellVisible = Array(height) { BooleanArray(width) { false } }
     var coordinates: Coordinates
         get() = currentCoordinates
-        private set(@Suppress("UNUSED_PARAMETER") value) {}
+        private set(value) {
+            currentCoordinates = value
+        }
 
     /** Returns field object on this cell and `InvisibleCell` if cell is invisible to character*/
     operator fun get(coordinates: Coordinates): FieldObject {

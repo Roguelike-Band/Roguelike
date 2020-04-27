@@ -8,6 +8,8 @@ import ru.spbau.roguelike.model.field.MovementExecutor
 import ru.spbau.roguelike.model.field.StepResult
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.characters.battle.BattleExecutor
+import ru.spbau.roguelike.model.field.objects.equipment.Equipment
+import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
 
 /** Any alive character on a field */
 @Serializable
@@ -20,10 +22,12 @@ abstract class Character(
         protected set
 
     abstract val vision: Int
+    val equipmentList = EquipmentList()
+
     /** Method that is called by logic to make a turn */
     fun doTurn(fieldInfo: FieldInfo, movementExecutor: MovementExecutor) {
-        val stepTo = strategy.generateStep(fieldInfo)
-        movementExecutor.executeMove(this, stepTo, fieldInfo)
+        val command = strategy.generateStep(fieldInfo)
+        command.execute(this, movementExecutor, fieldInfo)
     }
 
     open fun refreshPlayerUI(fieldInfo: FieldInfo) {
@@ -33,6 +37,19 @@ abstract class Character(
     override fun onStep(character: Character): StepResult {
         BattleExecutor.executeBattle(character, this)
         return StepResult.STEP_SHOULD_BE_CANCELLED
+    }
+
+    /** Puts [item] to character's equipment list */
+    fun addEquipment(item: Equipment) {
+        equipmentList.addItem(item)
+    }
+
+    fun putOnEquipment(indexInEquipmentList: Int) {
+        equipmentList.putOn(indexInEquipmentList, attributes)
+    }
+
+    fun takeOffEquipment(indexInEquipmentList: Int) {
+        equipmentList.takeOff(indexInEquipmentList, attributes)
     }
 
     /**

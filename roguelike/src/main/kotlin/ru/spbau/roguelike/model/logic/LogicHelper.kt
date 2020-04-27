@@ -8,6 +8,7 @@ import ru.spbau.roguelike.model.field.MovementExecutor
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
 import ru.spbau.roguelike.model.field.objects.characters.monsters.MonsterFactory
+import ru.spbau.roguelike.model.field.objects.equipment.EquipmentGenerator
 import kotlin.random.Random
 
 /** Helper methods for [Logic] */
@@ -51,7 +52,7 @@ internal class LogicHelper(
     private fun deleteDead() {
         for ((character, fieldInfo) in characters.map { it.character to it.fieldInfo }) {
             if (!character.isAlive && field[fieldInfo.coordinates] === character) {
-                field[fieldInfo.coordinates] = EmptyCell()
+                field[fieldInfo.coordinates] = EquipmentGenerator.generateRandom()
             }
         }
     }
