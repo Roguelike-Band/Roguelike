@@ -30,6 +30,12 @@ import ru.spbau.roguelike.model.field.objects.characters.player.Player
 import ru.spbau.roguelike.model.field.objects.equipment.Equipment
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.InputStreamReader
+import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
+
 
 class PlayerSerializer(private val readerController: ReaderController?, private val displayController: DisplayController?) : KSerializer<Player> {
 
@@ -60,7 +66,7 @@ class PlayerSerializer(private val readerController: ReaderController?, private 
 
 internal object SaveHandler {
 
-    private const val SAVE_FILE_NAME = "save.txt"
+    private const val SAVE_FILE_NAME = "save"
 
     private fun polymorphicContext(readerController: ReaderController?, displayController: DisplayController?): SerialModule = SerializersModule {
         polymorphic(FieldObject::class, Character::class, AbstractMonster::class) {
@@ -89,18 +95,25 @@ internal object SaveHandler {
             context = polymorphicContext(null, null)
         )
         val jsonData = json.stringify(GameInfo.serializer(), gameInfo)
-        File(SAVE_FILE_NAME).printWriter().use {
-            it.println(jsonData)
+        FileOutputStream(SAVE_FILE_NAME).use { fileOutputStream ->
+            GZIPOutputStream(fileOutputStream).use {
+                it.write(jsonData.toByteArray())
+                it.finish()
+            }
         }
     }
 
     fun loadField(readerController: ReaderController, displayController: DisplayController): GameInfo {
-        File(SAVE_FILE_NAME).bufferedReader().use {
-            val data = it.readText()
-            val json = Json(
-                context = polymorphicContext(readerController, displayController)
-            )
-            return json.parse(GameInfo.serializer(), data)
+        FileInputStream(SAVE_FILE_NAME).use { fileInputStream ->
+            GZIPInputStream(fileInputStream).use { gzipInputStream ->
+                InputStreamReader(gzipInputStream).use {
+                    val data = it.readText()
+                    val json = Json(
+                        context = polymorphicContext(readerController, displayController)
+                    )
+                    return json.parse(GameInfo.serializer(), data)
+                }
+            }
         }
     }
 
