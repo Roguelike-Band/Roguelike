@@ -12,6 +12,7 @@ import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.characters.Attributes
+import ru.spbau.roguelike.model.field.objects.characters.MoveCommand
 import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
 
@@ -43,9 +44,9 @@ class CowardStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(5)
 
-        val newCoordinates = strategy.generateStep(fieldInfo)
+        val newCoordinates = strategy.generateStep(fieldInfo) as MoveCommand
 
-        assertTrue(newCoordinates in listOf(Coordinates(0, 1), Coordinates(1, 2), Coordinates(2, 1)))
+        assertTrue(newCoordinates.stepTo in listOf(Coordinates(0, 1), Coordinates(1, 2), Coordinates(2, 1)))
     }
 
     @Test
@@ -61,9 +62,9 @@ class CowardStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(5)
 
-        val newCoordinates = strategy.generateStep(fieldInfo)
+        val newCoordinates = strategy.generateStep(fieldInfo) as MoveCommand
 
-        assertTrue(newCoordinates in listOf(Coordinates(0, 1)))
+        assertTrue(newCoordinates.stepTo in listOf(Coordinates(0, 1)))
     }
 
     @Test
@@ -79,8 +80,8 @@ class CowardStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(0)
 
-        val newCoordinates = strategy.generateStep(fieldInfo)
+        val newCoordinates = strategy.generateStep(fieldInfo) as MoveCommand
 
-        assertTrue(newCoordinates in listOf(Coordinates(1, 1)))
+        assertTrue(newCoordinates.stepTo in listOf(Coordinates(1, 1)))
     }
 }

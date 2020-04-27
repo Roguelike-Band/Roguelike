@@ -11,6 +11,7 @@ import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.characters.Attributes
+import ru.spbau.roguelike.model.field.objects.characters.MoveCommand
 import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
 
@@ -50,6 +51,8 @@ class PassiveStrategyTest {
         ))
         val fieldInfo = FieldInfo(field, Coordinates(2, 1))
 
-        assertEquals(Coordinates(2, 1), strategy.generateStep(fieldInfo))
+        val step = strategy.generateStep(fieldInfo) as MoveCommand
+
+        assertEquals(Coordinates(2, 1), step.stepTo)
     }
 }

@@ -8,7 +8,7 @@ sealed class Command {
     abstract fun execute(character: Character, movementExecutor: MovementExecutor, fieldInfo: FieldInfo)
 }
 
-class MoveCommand(private val stepTo: Coordinates) : Command() {
+class MoveCommand(val stepTo: Coordinates) : Command() {
     override fun execute(character: Character, movementExecutor: MovementExecutor, fieldInfo: FieldInfo) {
         movementExecutor.executeMove(character, stepTo, fieldInfo)
     }

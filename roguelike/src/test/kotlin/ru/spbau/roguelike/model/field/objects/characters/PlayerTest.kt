@@ -7,6 +7,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.controller.Turn
+import ru.spbau.roguelike.controller.turncommands.MoveUserCommand
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
 import ru.spbau.roguelike.model.field.FieldInfo
@@ -52,7 +53,7 @@ class PlayerTest {
     @Test
     fun `Should not go left`() {
         val mockedReader = mock(ReaderController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_LEFT)
+        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_LEFT))
 
         val player = Player(mockedReader)
         fieldInfo[Coordinates(1, 0)] = player
@@ -94,7 +95,7 @@ class PlayerTest {
     @Test
     fun `Should go right`() {
         val mockedReader = mock(ReaderController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_RIGHT)
+        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_RIGHT))
 
         val player = Player(mockedReader)
         fieldInfo[Coordinates(1, 0)] = player
@@ -135,7 +136,7 @@ class PlayerTest {
     @Test
     fun `Should go up`() {
         val mockedReader = mock(ReaderController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_UP)
+        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_UP))
 
         val player = Player(mockedReader)
         fieldInfo[Coordinates(1, 0)] = player
@@ -174,7 +175,7 @@ class PlayerTest {
     @Test
     fun `Should not go to the wall`() {
         val mockedReader = mock(ReaderController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(Turn.MOVEMENT_DOWN)
+        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_DOWN))
 
         val player = Player(mockedReader)
         fieldInfo[Coordinates(1, 0)] = player
