@@ -5,14 +5,14 @@ import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 
 /** Information about field that is known to character */
-@Serializable
 class FieldInfo(
     val field: Field,
-    private var currentCoordinates: Coordinates
+    private var currentCoordinates: Coordinates,
+    startingCellVisible: Array<BooleanArray>? = null
 ) {
     val height = field.height
     val width = field.width
-    private val isCellVisible = Array(height) { BooleanArray(width) { false } }
+    val isCellVisible = startingCellVisible ?: Array(height) { BooleanArray(width) { false } }
     var coordinates: Coordinates
         get() = currentCoordinates
         private set(value) {

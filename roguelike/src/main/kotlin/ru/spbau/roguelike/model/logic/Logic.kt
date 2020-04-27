@@ -23,10 +23,32 @@ class Logic(
 
     private val field: Field
     private val characters: MutableList<CharacterInfo> = mutableListOf()
+    private val logicHelper: LogicHelper
 
     init {
         if (shouldLoadFromSave) {
-            field = SaveHandler.loadField(readerController, displayController)
+            val gameInfo = SaveHandler.loadField(readerController, displayController)
+            field = gameInfo.field
+            logicHelper = LogicHelper(field, characters)
+            for (i in 0 until field.height) {
+                for (j in 0 until field.width) {
+                    val cell = field[Coordinates(i, j)]
+                    if (cell is Player) {
+                        characters += createPlayer(
+                            cell,
+                            Coordinates(i, j),
+                            FieldInfo(field, Coordinates(i, j), gameInfo.fieldInfos[cell.id]!!)
+                        )
+                    }
+                    if (cell is AbstractMonster) {
+                        logicHelper.addMonster(
+                            cell,
+                            Coordinates(i, j),
+                            FieldInfo(field, Coordinates(i, j), gameInfo.fieldInfos[cell.id]!!)
+                        )
+                    }
+                }
+            }
         } else {
             field = fileToLoadLevel?.let {
                 FieldGenerator.loadField(File(it))
@@ -34,30 +56,7 @@ class Logic(
                 FieldGenerationParameters(Logic.DEFAULT_FIELD_HEIGHT, Logic.DEFAULT_FIELD_WIDTH, Logic.DEFAULT_WALL_PERCENTAGE)
             )
             characters += createPlayer()
-        }
-    }
-
-    private val logicHelper = LogicHelper(field, characters)
-
-    init {
-        if (shouldLoadFromSave) {
-            for (i in 0 until field.height) {
-                for (j in 0 until field.width) {
-                    val cell = field[Coordinates(i, j)]
-                    if (cell is Player) {
-                        characters += createPlayer(
-                            cell,
-                            Coordinates(i, j)
-                        )
-                    }
-                    if (cell is AbstractMonster) {
-                        logicHelper.addMonster(
-                            cell,
-                            Coordinates(i, j)
-                        )
-                    }
-                }
-            }
+            logicHelper = LogicHelper(field, characters)
         }
     }
 
@@ -74,7 +73,10 @@ class Logic(
                 logicHelper.updateAfterTurn()
             }
             logicHelper.finishEpoch()
-            SaveHandler.saveField(field)
+            SaveHandler.saveGame(GameInfo(
+                field,
+                characters.map { it.character.id to it.fieldInfo.isCellVisible }.toMap()
+            ))
         }
     }
 

@@ -4,6 +4,7 @@ import kotlinx.serialization.Decoder
 import kotlinx.serialization.Encoder
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialDescriptor
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeStructure
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerialModule
@@ -11,6 +12,7 @@ import kotlinx.serialization.modules.SerializersModule
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.Field
+import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
@@ -70,23 +72,23 @@ internal object SaveHandler {
         }
     }
 
-    fun saveField(field: Field) {
+    fun saveGame(gameInfo: GameInfo) {
         val json = Json(
             context = polymorphicContext(null, null)
         )
-        val jsonData = json.stringify(Field.serializer(), field)
+        val jsonData = json.stringify(GameInfo.serializer(), gameInfo)
         File(SAVE_FILE_NAME).printWriter().use {
             it.println(jsonData)
         }
     }
 
-    fun loadField(readerController: ReaderController, displayController: DisplayController): Field {
+    fun loadField(readerController: ReaderController, displayController: DisplayController): GameInfo {
         File(SAVE_FILE_NAME).bufferedReader().use {
             val data = it.readText()
             val json = Json(
                 context = polymorphicContext(readerController, displayController)
             )
-            return json.parse(Field.serializer(), data)
+            return json.parse(GameInfo.serializer(), data)
         }
     }
 
@@ -98,3 +100,9 @@ internal object SaveHandler {
         File(SAVE_FILE_NAME).delete()
     }
 }
+
+@Serializable
+data class GameInfo(
+    val field: Field,
+    val fieldInfos: Map<Int, Array<BooleanArray>>
+)

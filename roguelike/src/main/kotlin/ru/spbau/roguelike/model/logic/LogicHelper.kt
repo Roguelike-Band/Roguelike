@@ -12,7 +12,6 @@ import ru.spbau.roguelike.model.field.objects.equipment.EquipmentGenerator
 import kotlin.random.Random
 
 /** Helper methods for [Logic] */
-@Serializable
 internal class LogicHelper(
         private val field: Field,
         private val characters: MutableList<CharacterInfo>
@@ -64,10 +63,13 @@ internal class LogicHelper(
         }
     }
 
-    fun addMonster(monster: AbstractMonster, coordinates: Coordinates = field.getRandomEmptyCell()) {
+    fun addMonster(
+        monster: AbstractMonster,
+        coordinates: Coordinates = field.getRandomEmptyCell(),
+        fieldInfo: FieldInfo = FieldInfo(field, coordinates)
+    ) {
         field[coordinates] = monster
         val movementExecutor = MovementExecutor(field)
-        val fieldInfo = FieldInfo(field, coordinates)
         val monsterInfo = CharacterInfo(
                 isRealCharacter = false,
                 fieldInfo = fieldInfo,
