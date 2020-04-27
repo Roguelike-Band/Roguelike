@@ -1,5 +1,7 @@
 package ru.spbau.roguelike.model.logic
 
+import kotlinx.serialization.Serializable
+import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.MovementExecutor
@@ -10,6 +12,7 @@ import ru.spbau.roguelike.model.field.objects.equipment.EquipmentGenerator
 import kotlin.random.Random
 
 /** Helper methods for [Logic] */
+@Serializable
 internal class LogicHelper(
         private val field: Field,
         private val characters: MutableList<CharacterInfo>
@@ -27,8 +30,8 @@ internal class LogicHelper(
 
     /** Refresh player UI */
     internal fun refreshScreens() {
-        for (afterTurnLogic in characters.map { it.afterTurnLogic }) {
-            afterTurnLogic.refreshPlayerUI()
+        for (characterInfo in characters) {
+            characterInfo.character.refreshPlayerUI(characterInfo.fieldInfo)
         }
     }
 
@@ -61,8 +64,7 @@ internal class LogicHelper(
         }
     }
 
-    private fun addMonster(monster: AbstractMonster) {
-        val coordinates = field.getRandomEmptyCell()
+    fun addMonster(monster: AbstractMonster, coordinates: Coordinates = field.getRandomEmptyCell()) {
         field[coordinates] = monster
         val movementExecutor = MovementExecutor(field)
         val fieldInfo = FieldInfo(field, coordinates)
@@ -71,8 +73,7 @@ internal class LogicHelper(
                 fieldInfo = fieldInfo,
                 character = monster,
                 movementExecutor = movementExecutor,
-                turnLogic = TurnLogic(monster, fieldInfo, movementExecutor),
-                afterTurnLogic = MonsterAfterTurnLogic()
+                turnLogic = TurnLogic(monster, fieldInfo, movementExecutor)
         )
         characters.add(monsterInfo)
     }

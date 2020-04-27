@@ -101,7 +101,7 @@ class Lanterna {
         val panel = Panel()
         val label = Label("Current field: random")
 
-        val actionListBox = ActionListBox(TerminalSize(24, 2))
+        val actionListBox = ActionListBox(TerminalSize(24, 3))
         val textGUI = MultiWindowTextGUI(screen)
 
         val window = BasicWindow()

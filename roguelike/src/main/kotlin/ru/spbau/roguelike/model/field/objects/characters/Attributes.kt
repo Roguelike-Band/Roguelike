@@ -1,8 +1,10 @@
 package ru.spbau.roguelike.model.field.objects.characters
 
+import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.equipment.Equipment
 
 /** State of a character */
+@Serializable
 class Attributes(mHealthPoints: Int, mMaxPower: Int, mDefence: Int = 0) {
 
     /** Number of current health points of this character */
