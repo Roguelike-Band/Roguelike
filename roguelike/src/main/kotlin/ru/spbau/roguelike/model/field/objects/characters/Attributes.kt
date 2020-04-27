@@ -32,14 +32,34 @@ class Attributes(
         healthPoints -= hitPower
     }
 
-    fun addEquipment(item: Equipment): Boolean {
+    fun canAddEquipment(item: Equipment): Boolean {
         if (defence + item.defenceDelta < 0) {
             return false
         }
         if (maxPower + item.powerDelta < 0) {
             return false
         }
-        if (healthPoints + item.healthDelta < 0) {
+        if (healthPoints + item.healthDelta <= 0) {
+            return false
+        }
+        return true
+    }
+
+    fun canRemoveEquipment(item: Equipment): Boolean {
+        if (defence - item.defenceDelta < 0) {
+            return false
+        }
+        if (maxPower - item.powerDelta < 0) {
+            return false
+        }
+        if (healthPoints - item.healthDelta < 0) {
+            return false
+        }
+        return true
+    }
+
+    fun addEquipment(item: Equipment): Boolean {
+        if (!canAddEquipment(item)) {
             return false
         }
 
@@ -50,13 +70,7 @@ class Attributes(
     }
 
     fun removeEquipment(item: Equipment): Boolean {
-        if (defence - item.defenceDelta < 0) {
-            return false
-        }
-        if (maxPower - item.powerDelta < 0) {
-            return false
-        }
-        if (healthPoints - item.healthDelta < 0) {
+        if (!canRemoveEquipment(item)) {
             return false
         }
 
