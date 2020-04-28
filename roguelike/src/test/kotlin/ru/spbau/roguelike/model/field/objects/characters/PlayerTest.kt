@@ -9,7 +9,6 @@ import org.mockito.Mockito.mock
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.controller.Turn
-import ru.spbau.roguelike.controller.turncommands.MoveUserCommand
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
 import ru.spbau.roguelike.model.field.FieldInfo
@@ -56,7 +55,7 @@ class PlayerTest {
     fun `Should not go left`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_LEFT))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_LEFT,  fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player
@@ -99,7 +98,7 @@ class PlayerTest {
     fun `Should go right`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_RIGHT))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_RIGHT, fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player
@@ -141,7 +140,7 @@ class PlayerTest {
     fun `Should go up`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_UP))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_UP, fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player
@@ -181,7 +180,7 @@ class PlayerTest {
     fun `Should not go to the wall`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readTurn()).thenReturn(MoveUserCommand(Turn.MOVEMENT_DOWN))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_DOWN, fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player

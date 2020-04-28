@@ -1,7 +1,6 @@
 package ru.spbau.roguelike.model.field.objects.characters
 
 import kotlinx.serialization.ContextualSerialization
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.MovementExecutor
@@ -33,7 +32,7 @@ abstract class Character(
 
     /** Method that is called by logic to make a turn */
     fun doTurn(fieldInfo: FieldInfo, movementExecutor: MovementExecutor) {
-        val command = strategy.generateStep(this, fieldInfo)
+        val command = strategy.generateCommand(this, fieldInfo)
         command.execute(this, movementExecutor, fieldInfo)
     }
 
