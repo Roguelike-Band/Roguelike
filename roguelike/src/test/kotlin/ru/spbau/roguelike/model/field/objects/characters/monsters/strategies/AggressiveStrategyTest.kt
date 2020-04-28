@@ -46,7 +46,7 @@ class AggressiveStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(5)
 
-        val newCoordinates = strategy.generateStep(newMonster, fieldInfo) as MoveCommand
+        val newCoordinates = strategy.generateCommand(newMonster, fieldInfo) as MoveCommand
 
         assertTrue(newCoordinates.stepTo in listOf(Coordinates(1, 0)))
     }
@@ -64,7 +64,7 @@ class AggressiveStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(5)
 
-        val newCoordinates = strategy.generateStep(newMonster, fieldInfo) as MoveCommand
+        val newCoordinates = strategy.generateCommand(newMonster, fieldInfo) as MoveCommand
 
         assertTrue(newCoordinates.stepTo in listOf(Coordinates(3, 2)))
     }
@@ -82,7 +82,7 @@ class AggressiveStrategyTest {
         val fieldInfo = FieldInfo(field, coordinates)
         fieldInfo.setVisibleNeighbourhood(0)
 
-        val newCoordinates = strategy.generateStep(newMonster, fieldInfo) as MoveCommand
+        val newCoordinates = strategy.generateCommand(newMonster, fieldInfo) as MoveCommand
 
         assertTrue(newCoordinates.stepTo in listOf(Coordinates(1, 1)))
     }
