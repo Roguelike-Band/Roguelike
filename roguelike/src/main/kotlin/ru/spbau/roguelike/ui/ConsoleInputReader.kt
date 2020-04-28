@@ -2,9 +2,11 @@ package ru.spbau.roguelike.ui
 
 import com.googlecode.lanterna.input.KeyType
 import ru.spbau.roguelike.controller.Turn
-import ru.spbau.roguelike.controller.turncommands.UserCommand
-import ru.spbau.roguelike.controller.turncommands.EquipmentUserCommand
-import ru.spbau.roguelike.controller.turncommands.MoveUserCommand
+import ru.spbau.roguelike.model.field.FieldInfo
+import ru.spbau.roguelike.model.field.objects.characters.Command
+import ru.spbau.roguelike.model.field.objects.characters.MoveUserCommand
+import ru.spbau.roguelike.model.field.objects.characters.PutOnEquipmentCommand
+import ru.spbau.roguelike.model.field.objects.characters.TakeOffEquipmentCommand
 import kotlin.system.exitProcess
 
 /**
@@ -22,15 +24,15 @@ class ConsoleInputReader(
      *
      * Ignores all input thar was done before this function call
      */
-    fun readTurn(): UserCommand {
+    fun readCommand(fieldInfo: FieldInfo): Command {
         lanterna.ignoreAllPreviousInput()
         while (true) {
             val input = lanterna.readInput()
             when (input.keyType) {
-                KeyType.ArrowDown  -> return MoveUserCommand(Turn.MOVEMENT_DOWN)
-                KeyType.ArrowUp    -> return MoveUserCommand(Turn.MOVEMENT_UP)
-                KeyType.ArrowLeft  -> return MoveUserCommand(Turn.MOVEMENT_LEFT)
-                KeyType.ArrowRight -> return MoveUserCommand(Turn.MOVEMENT_RIGHT)
+                KeyType.ArrowDown  -> return MoveUserCommand(Turn.MOVEMENT_DOWN, fieldInfo.coordinates)
+                KeyType.ArrowUp    -> return MoveUserCommand(Turn.MOVEMENT_UP, fieldInfo.coordinates)
+                KeyType.ArrowLeft  -> return MoveUserCommand(Turn.MOVEMENT_LEFT, fieldInfo.coordinates)
+                KeyType.ArrowRight -> return MoveUserCommand(Turn.MOVEMENT_RIGHT, fieldInfo.coordinates)
                 KeyType.Character -> {
                     when (input.character) {
                         'a' -> {
@@ -41,8 +43,8 @@ class ConsoleInputReader(
                             status.moveCrsorRight()
                             consoleUIOutput.refreshGameField(status.fieldInfo!!)
                         }
-                        'w' -> return EquipmentUserCommand(Turn.PUT_ON_EQUIPMENT, status.equipmentCursor)
-                        's' -> return EquipmentUserCommand(Turn.TAKE_OFF_EQUIPMENT, status.equipmentCursor)
+                        'w' -> return PutOnEquipmentCommand(status.equipmentCursor)
+                        's' -> return TakeOffEquipmentCommand(status.equipmentCursor)
                     }
                 }
                 KeyType.EOF -> exitProcess(0)

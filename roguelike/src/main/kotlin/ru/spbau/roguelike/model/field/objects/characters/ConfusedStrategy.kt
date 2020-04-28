@@ -16,7 +16,7 @@ class ConfusedStrategy(
         private val previousStrategy: Strategy,
         private var confuseTime: Int
 ) : Strategy {
-    override fun generateStep(character: Character, fieldInfo: FieldInfo): Command {
+    override fun generateCommand(character: Character, fieldInfo: FieldInfo): Command {
         --confuseTime
         if (confuseTime == 0) {
             character.unconfuse(previousStrategy)
@@ -25,7 +25,7 @@ class ConfusedStrategy(
         val currentCoordinates = fieldInfo.coordinates
         val rowChange = Random.nextBoolean()
         val coordinateChange = listOf(-1, 1).random()
-        return MoveCommand(
+        return MoveToCoordinatesCommand(
                 if (rowChange) {
                     Coordinates(currentCoordinates.row + coordinateChange, currentCoordinates.column)
                 } else {
