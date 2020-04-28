@@ -55,7 +55,7 @@ class PlayerTest {
     fun `Should not go left`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveUserCommand(Turn.MOVEMENT_LEFT,  fieldInfo.coordinates))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_LEFT,  fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player
@@ -98,7 +98,7 @@ class PlayerTest {
     fun `Should go right`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveUserCommand(Turn.MOVEMENT_RIGHT, fieldInfo.coordinates))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_RIGHT, fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player
@@ -140,7 +140,7 @@ class PlayerTest {
     fun `Should go up`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveUserCommand(Turn.MOVEMENT_UP, fieldInfo.coordinates))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_UP, fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player
@@ -180,7 +180,7 @@ class PlayerTest {
     fun `Should not go to the wall`() {
         val mockedReader = mock(ReaderController::class.java)
         val mockedDisplay = Mockito.mock(DisplayController::class.java)
-        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveUserCommand(Turn.MOVEMENT_DOWN, fieldInfo.coordinates))
+        `when`(mockedReader.readCommand(fieldInfo)).thenReturn(MoveCommand(Turn.MOVEMENT_DOWN, fieldInfo.coordinates))
 
         val player = Player(mockedReader, mockedDisplay)
         fieldInfo[Coordinates(1, 0)] = player

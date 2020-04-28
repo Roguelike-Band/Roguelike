@@ -4,7 +4,7 @@ import com.googlecode.lanterna.input.KeyType
 import ru.spbau.roguelike.controller.Turn
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.characters.Command
-import ru.spbau.roguelike.model.field.objects.characters.MoveUserCommand
+import ru.spbau.roguelike.model.field.objects.characters.MoveCommand
 import ru.spbau.roguelike.model.field.objects.characters.PutOnEquipmentCommand
 import ru.spbau.roguelike.model.field.objects.characters.TakeOffEquipmentCommand
 import kotlin.system.exitProcess
@@ -29,10 +29,10 @@ class ConsoleInputReader(
         while (true) {
             val input = lanterna.readInput()
             when (input.keyType) {
-                KeyType.ArrowDown  -> return MoveUserCommand(Turn.MOVEMENT_DOWN, fieldInfo.coordinates)
-                KeyType.ArrowUp    -> return MoveUserCommand(Turn.MOVEMENT_UP, fieldInfo.coordinates)
-                KeyType.ArrowLeft  -> return MoveUserCommand(Turn.MOVEMENT_LEFT, fieldInfo.coordinates)
-                KeyType.ArrowRight -> return MoveUserCommand(Turn.MOVEMENT_RIGHT, fieldInfo.coordinates)
+                KeyType.ArrowDown  -> return MoveCommand(Turn.MOVEMENT_DOWN, fieldInfo.coordinates)
+                KeyType.ArrowUp    -> return MoveCommand(Turn.MOVEMENT_UP, fieldInfo.coordinates)
+                KeyType.ArrowLeft  -> return MoveCommand(Turn.MOVEMENT_LEFT, fieldInfo.coordinates)
+                KeyType.ArrowRight -> return MoveCommand(Turn.MOVEMENT_RIGHT, fieldInfo.coordinates)
                 KeyType.Character -> {
                     when (input.character) {
                         'a' -> {

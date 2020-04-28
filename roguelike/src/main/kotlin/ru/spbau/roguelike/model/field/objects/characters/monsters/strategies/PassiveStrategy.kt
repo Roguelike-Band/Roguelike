@@ -1,7 +1,6 @@
 package ru.spbau.roguelike.model.field.objects.characters.monsters.strategies
 
 import kotlinx.serialization.Serializable
-import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.characters.*
 
@@ -10,6 +9,6 @@ import ru.spbau.roguelike.model.field.objects.characters.*
 @Serializable
 class PassiveStrategy : Strategy {
     override fun generateCommand(character: Character, fieldInfo: FieldInfo): Command {
-        return MoveToCoordinatesCommand(fieldInfo.coordinates)
+        return MoveCommand(fieldInfo.coordinates)
     }
 }

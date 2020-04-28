@@ -25,12 +25,12 @@ class ConfusedStrategy(
         val currentCoordinates = fieldInfo.coordinates
         val rowChange = Random.nextBoolean()
         val coordinateChange = listOf(-1, 1).random()
-        return MoveToCoordinatesCommand(
-                if (rowChange) {
-                    Coordinates(currentCoordinates.row + coordinateChange, currentCoordinates.column)
-                } else {
-                    Coordinates(currentCoordinates.row, currentCoordinates.column + coordinateChange)
-                }
+        return MoveCommand(
+            if (rowChange) {
+                Coordinates(currentCoordinates.row + coordinateChange, currentCoordinates.column)
+            } else {
+                Coordinates(currentCoordinates.row, currentCoordinates.column + coordinateChange)
+            }
         )
     }
 }

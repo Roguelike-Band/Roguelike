@@ -17,6 +17,6 @@ class CowardStrategy : Strategy {
     }
 
     override fun generateCommand(character: Character, fieldInfo: FieldInfo): Command {
-        return MoveToCoordinatesCommand(BFS(fieldInfo).getFartherFromPlayer() ?: generateStepWithNoVisiblePlayer(fieldInfo))
+        return MoveCommand(BFS(fieldInfo).getFartherFromPlayer() ?: generateStepWithNoVisiblePlayer(fieldInfo))
     }
 }

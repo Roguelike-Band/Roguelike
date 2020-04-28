@@ -18,6 +18,6 @@ class AggressiveStrategy : Strategy {
     }
 
     override fun generateCommand(character: Character, fieldInfo: FieldInfo): Command {
-        return MoveToCoordinatesCommand(BFS(fieldInfo).getCloserToPlayer() ?: generateStepWithNoVisiblePlayer(fieldInfo))
+        return MoveCommand(BFS(fieldInfo).getCloserToPlayer() ?: generateStepWithNoVisiblePlayer(fieldInfo))
     }
 }
