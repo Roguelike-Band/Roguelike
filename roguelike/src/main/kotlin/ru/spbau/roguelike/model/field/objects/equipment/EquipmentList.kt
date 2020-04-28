@@ -23,6 +23,7 @@ class EquipmentList {
         return allEquipment[index]
     }
 
+    /** Checks if item is already put on */
     fun isPutOn(index: Int): Boolean {
         if (index !in 0 until size) {
             throw IllegalArgumentException("Equipment $index is out of bounds [0; $size)")
@@ -36,6 +37,11 @@ class EquipmentList {
         isPutOn.add(false)
     }
 
+    /**
+     * Puts item on applying effects to [attributes].
+     *
+     * If item cannot be put on, does nothing
+     */
     fun putOn(index: Int, attributes: Attributes) {
         if (index !in 0 until size || isPutOn[index]) {
             return
@@ -45,6 +51,11 @@ class EquipmentList {
         }
     }
 
+    /**
+     * Takes item off applying effects to [attributes].
+     *
+     * If item cannot be taken off, does nothing
+     */
     fun takeOff(index: Int, attributes: Attributes) {
         if (index !in 0 until size || !isPutOn[index]) {
             return

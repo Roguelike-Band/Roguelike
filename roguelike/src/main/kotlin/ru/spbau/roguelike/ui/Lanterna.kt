@@ -164,6 +164,7 @@ class DrawingParameters(
         val foregroundColor: TextColor = TextColor.ANSI.DEFAULT
 )
 
+/** Parameters for text output */
 class TextParameters(
         val text: String,
         val backgroundColor: TextColor = TextColor.ANSI.DEFAULT,

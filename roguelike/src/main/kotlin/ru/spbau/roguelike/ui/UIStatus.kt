@@ -4,7 +4,7 @@ import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
 
 /**
- * Stores UI information.
+ * Stores UI information (such as cursor position).
  */
 class UIStatus {
     var equipmentCursor = 0

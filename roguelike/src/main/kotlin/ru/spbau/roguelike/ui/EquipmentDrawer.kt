@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TextColor
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import java.lang.IllegalArgumentException
 
+/** Object for drawing equipment in equipment list */
 object EquipmentDrawer {
     /** Maps concrete object to drawing parameters */
     fun buildDrawingParameters(objectType: FieldObjectType, isPutOn: Boolean): DrawingParameters {

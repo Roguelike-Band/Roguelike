@@ -6,6 +6,15 @@ import ru.spbau.roguelike.model.field.objects.FieldObject
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.characters.Character
 
+/**
+ * Equipment item.
+ *
+ * Equipment changes character's attributes.
+ * For example, if character has 8 hp and equipment has 3 as [healthDelta], after applying
+ * character will have 11 hp. Deltas may be negative.
+ *
+ * All equipment items should be created using [Equipment.Builder]
+ */
 @Serializable
 class Equipment private constructor(
         override val objectType: FieldObjectType,
@@ -19,6 +28,17 @@ class Equipment private constructor(
         return StepResult.STEP_SHOULD_BE_DONE
     }
 
+    /**
+     * Class for creating equipment.
+     *
+     * To create an equipment you may use it like
+     * val equipment = Equipment.Builder()
+     *                          .defenceDelta(3)
+     *                          .objectType(FieldObjectType.RANDOM_EQUIPMENT)
+     *                          .powerDelta(42)
+     *                          .healthDelta(-42)
+     *                          .build()
+     */
     class Builder {
         private var objectType: FieldObjectType = FieldObjectType.USELESS_EQUIPMENT
         private var defenceDelta: Int = 0
