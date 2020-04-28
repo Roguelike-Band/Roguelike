@@ -3,10 +3,7 @@ package ru.spbau.roguelike.model.field.objects.characters.monsters.strategies
 import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.FieldInfo
-import ru.spbau.roguelike.model.field.objects.characters.Character
-import ru.spbau.roguelike.model.field.objects.characters.Command
-import ru.spbau.roguelike.model.field.objects.characters.MoveCommand
-import ru.spbau.roguelike.model.field.objects.characters.Strategy
+import ru.spbau.roguelike.model.field.objects.characters.*
 
 /**
  * If player isn't visible or monster can't reach player, this strategy will stand still.
@@ -20,7 +17,7 @@ class AggressiveStrategy : Strategy {
         return fieldInfo.coordinates
     }
 
-    override fun generateStep(character: Character, fieldInfo: FieldInfo): Command {
+    override fun generateCommand(character: Character, fieldInfo: FieldInfo): Command {
         return MoveCommand(BFS(fieldInfo).getCloserToPlayer() ?: generateStepWithNoVisiblePlayer(fieldInfo))
     }
 }
