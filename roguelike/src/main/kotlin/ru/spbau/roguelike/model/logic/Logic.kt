@@ -35,7 +35,7 @@ class Logic(
                 for (j in 0 until field.width) {
                     val cell = field[Coordinates(i, j)]
                     if (cell is Player) {
-                        characters += createPlayer(
+                        createPlayer(
                             cell,
                             Coordinates(i, j),
                             FieldInfo(field, Coordinates(i, j), gameInfo.fieldInfos[cell.id]!!)
@@ -57,7 +57,6 @@ class Logic(
             } ?: FieldGenerator.generateField(
                 FieldGenerationParameters(Logic.DEFAULT_FIELD_HEIGHT, Logic.DEFAULT_FIELD_WIDTH, Logic.DEFAULT_WALL_PERCENTAGE)
             )
-            characters += createPlayer()
             logicHelper = LogicHelper(field, characters)
         }
     }
@@ -84,19 +83,21 @@ class Logic(
         SaveHandler.deleteSave()
     }
 
-    private fun createPlayer(
+    fun createPlayer(
         player: Player = Player(readerController, displayController),
         coordinates: Coordinates = field.getRandomEmptyCell(),
         fieldInfo: FieldInfo = FieldInfo(field, coordinates)
     ): CharacterInfo {
         val movementExecutor = MovementExecutor(field)
         field[coordinates] = player
-        return CharacterInfo(
+        val info = CharacterInfo(
             isRealCharacter = true,
             fieldInfo = fieldInfo,
             character = player,
             movementExecutor = movementExecutor,
             turnLogic = TurnLogic(player, fieldInfo, movementExecutor)
         )
+        characters.add(info)
+        return info
     }
 }

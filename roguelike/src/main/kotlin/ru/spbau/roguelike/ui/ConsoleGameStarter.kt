@@ -38,6 +38,7 @@ class ConsoleGameStarter(private val lanterna: Lanterna) {
             lanterna.printErrorMessage("Field cannot be loaded")
             return
         }
+        logic.createPlayer()
         logic.gameLoop()
         lanterna.createMenu(ConsoleGameStarter(lanterna), OnlineGameSelection(lanterna))
         lanterna.refreshScreen()
