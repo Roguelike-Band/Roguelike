@@ -2,21 +2,23 @@ package ru.spbau.roguelike.net.grpc
 
 import com.google.protobuf.Empty
 import kotlinx.coroutines.flow.Flow
+import ru.spbau.roguelike.net.server.Server
 
-class RoguelikeGRPC : ServerConnectionGrpcKt.ServerConnectionCoroutineImplBase() {
-    override suspend fun connectToGame(request: ActiveGameId): Empty {
-        TODO()
-    }
-
-    override suspend fun createNewGame(request: GameName): Empty {
-        TODO()
-    }
-
-    override fun game(requests: Flow<Command>): Flow<FieldInfoOrYourTurn> {
+class RoguelikeGRPC(private val server: Server) : ServerConnectionGrpcKt.ServerConnectionCoroutineImplBase() {
+    override fun game(requests: Flow<Request>): Flow<FieldInfoOrYourTurn> {
         TODO()
     }
 
     override suspend fun getActiveGames(request: Empty): ActiveGamesList {
-        TODO()
+        return ActiveGamesList.newBuilder()
+            .addAllActiveGames(
+                server.getActiveGames().map {
+                    ActiveGamesList.ActiveGame.newBuilder()
+                        .setId(it.id)
+                        .setName(it.name)
+                        .build()
+                }
+            )
+            .build()
     }
 }

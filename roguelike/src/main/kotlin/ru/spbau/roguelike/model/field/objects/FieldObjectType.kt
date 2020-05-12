@@ -12,5 +12,5 @@ enum class FieldObjectType {
     SHIELD,
     USELESS_EQUIPMENT,
     RANDOM_EQUIPMENT,
-    OPPONENT
+    ONLINE_PLAYER
 }

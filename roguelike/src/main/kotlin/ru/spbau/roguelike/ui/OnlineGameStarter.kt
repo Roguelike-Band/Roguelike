@@ -3,7 +3,7 @@ package ru.spbau.roguelike.ui
 import ru.spbau.roguelike.controller.ConsoleDisplayController
 import ru.spbau.roguelike.controller.ConsoleReaderController
 import ru.spbau.roguelike.net.client.GameConnection
-import ru.spbau.roguelike.net.client.Logic
+import ru.spbau.roguelike.net.client.OnlineClientLogic
 
 class OnlineGameStarter(
     private val lanterna: Lanterna,
@@ -19,7 +19,7 @@ class OnlineGameStarter(
         val consoleDisplayController = ConsoleDisplayController(consoleUIOutput)
         val consoleReaderController = ConsoleReaderController(consoleInputReader)
 
-        val logic = Logic(consoleDisplayController, consoleReaderController, gameConnection)
+        val logic = OnlineClientLogic(consoleDisplayController, consoleReaderController, gameConnection)
 
         lanterna.createMenu(ConsoleGameStarter(lanterna), OnlineGameSelection(lanterna))
         lanterna.refreshScreen()

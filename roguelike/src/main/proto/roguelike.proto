@@ -7,55 +7,61 @@ package ru.spbau.roguelike.net.grpc;
 option java_multiple_files = true;
 
 service ServerConnection {
-  rpc game(stream Command) returns (stream FieldInfoOrYourTurn);
-  rpc connectToGame(ActiveGameId) returns (google.protobuf.Empty);
-  rpc createNewGame(GameName) returns (google.protobuf.Empty);
+  rpc game(stream Request) returns (stream FieldInfoOrYourTurn);
   rpc getActiveGames(google.protobuf.Empty) returns (ActiveGamesList);
+}
+
+message Request {
+  oneof Requests {
+    Command command = 1;
+    CreateNewGame createNewGame = 2;
+    ConnectToActiveGame connectToActiveGame = 3;
+  }
+
+  message ConnectToActiveGame {
+    int32 gameId = 1;
+  }
+
+  message CreateNewGame {
+    string name = 1;
+  }
+
+  message Command {
+    oneof Commands {
+      MoveCommand moveCommand = 1;
+      PutOnEquipmentCommand putOnEquipmentCommand = 2;
+      TakeOffEquipmentCommand takeOffEquipmentCommand = 3;
+    }
+
+    message MoveCommand {
+      Coordinates stepTo = 1;
+
+      message Coordinates {
+        int32 row = 1;
+        int32 column = 2;
+      }
+    }
+
+    message PutOnEquipmentCommand {
+      int32 index = 1;
+    }
+
+    message TakeOffEquipmentCommand {
+      int32 index = 1;
+    }
+  }
 }
 
 message ActiveGamesList {
   repeated ActiveGame activeGames = 1;
-}
 
-message ActiveGameId {
-  int32 id = 1;
-}
-
-message GameName {
-  string name = 1;
-}
-
-message ActiveGame {
-  int32 id = 1;
-  string name = 2;
-
-  message ActiveGameId {
+  message ActiveGame {
     int32 id = 1;
-  }
-}
+    string name = 2;
 
-message Command {
-  oneof Commands {
-    MoveCommand moveCommand = 1;
-    PutOnEquipmentCommand putOnEquipmentCommand = 2;
-    TakeOffEquipmentCommand takeOffEquipmentCommand = 3;
-  }
-
-  message MoveCommand {
-    Coordinates stepTo = 1;
-
-    message Coordinates {
-      int32 row = 1;
-      int32 column = 2;
+    message ActiveGameId {
+      int32 id = 1;
     }
-  }
-
-  message PutOnEquipmentCommand {
-    int32 index = 1;
-  }
-
-  message TakeOffEquipmentCommand {
-    int32 index = 1;
   }
 }
 
