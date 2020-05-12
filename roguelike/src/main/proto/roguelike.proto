@@ -17,108 +17,107 @@ message Request {
     CreateNewGame createNewGame = 2;
     ConnectToActiveGame connectToActiveGame = 3;
   }
+}
 
-  message ConnectToActiveGame {
-    int32 gameId = 1;
+message Command {
+  oneof Commands {
+    MoveCommand moveCommand = 1;
+    PutOnEquipmentCommand putOnEquipmentCommand = 2;
+    TakeOffEquipmentCommand takeOffEquipmentCommand = 3;
   }
+}
 
-  message CreateNewGame {
-    string name = 1;
-  }
+message CreateNewGame {
+  string name = 1;
+}
 
-  message Command {
-    oneof Commands {
-      MoveCommand moveCommand = 1;
-      PutOnEquipmentCommand putOnEquipmentCommand = 2;
-      TakeOffEquipmentCommand takeOffEquipmentCommand = 3;
-    }
+message ConnectToActiveGame {
+  int32 gameId = 1;
+}
 
-    message MoveCommand {
-      Coordinates stepTo = 1;
+message MoveCommand {
+  Coordinates stepTo = 1;
+}
 
-      message Coordinates {
-        int32 row = 1;
-        int32 column = 2;
-      }
-    }
+message Coordinates {
+  int32 row = 1;
+  int32 column = 2;
+}
 
-    message PutOnEquipmentCommand {
-      int32 index = 1;
-    }
+message PutOnEquipmentCommand {
+  int32 index = 1;
+}
 
-    message TakeOffEquipmentCommand {
-      int32 index = 1;
-    }
-  }
+message TakeOffEquipmentCommand {
+  int32 index = 1;
 }
 
 message ActiveGamesList {
   repeated ActiveGame activeGames = 1;
+}
 
-  message ActiveGame {
-    int32 id = 1;
-    string name = 2;
-
-    message ActiveGameId {
-      int32 id = 1;
-    }
-  }
+message ActiveGame {
+  int32 id = 1;
+  string name = 2;
 }
 
 message FieldInfoOrYourTurn {
   oneof Responses {
     DisplayFieldInfo fieldInfo = 1;
-    google.protobuf.Empty yourTurn = 2;
+    YourTurn yourTurn = 2;
   }
+}
 
-  message DisplayFieldInfo {
-    FieldInfo fieldInfo = 1;
-    PlayerView player = 2;
+message YourTurn {
+}
 
-    message FieldInfo {
-      repeated ArrayRow field = 1;
+message DisplayFieldInfo {
+  FieldInfo fieldInfo = 1;
+  PlayerView player = 2;
+}
 
-      message ArrayRow {
-        repeated ObjectType objectTypes = 1;
-      }
-    }
+message FieldInfo {
+  repeated ArrayRow field = 1;
+}
 
-    message PlayerView {
-      bool isAlive = 1;
-      EquipmentListView equipmentList = 2;
-      Attributes attributes = 3;
+message ArrayRow {
+  repeated ObjectType objectTypes = 1;
+}
 
-      message EquipmentListView {
-        repeated Equipment allEquipment = 1;
-        repeated bool isPutOn = 2;
+message PlayerView {
+  bool isAlive = 1;
+  EquipmentListView equipmentList = 2;
+  Attributes attributes = 3;
+}
 
-        message Equipment {
-          ObjectType objectType = 1;
-          int32 defenceDelta = 2;
-          int32 powerDelta = 3;
-          int32 healthDelta = 4;
-        }
-      }
+message EquipmentListView {
+  repeated Equipment allEquipment = 1;
+  repeated bool isPutOn = 2;
+}
 
-      message Attributes {
-        int32 health = 1;
-        int32 maxPower = 2;
-        int32 defence = 3;
-      }
-    }
-  }
+message Equipment {
+  ObjectType objectType = 1;
+  int32 defenceDelta = 2;
+  int32 powerDelta = 3;
+  int32 healthDelta = 4;
+}
 
-  enum ObjectType {
-    EMPTY_CELL = 0;
-    INVISIBLE_CELL = 1;
-    WALL = 2;
-    PLAYER = 3;
-    AGGRESSIVE_MONSTER = 4;
-    COWARD_MONSTER = 5;
-    PASSIVE_MONSTER = 6;
-    SHIELD = 7;
-    USELESS_EQUIPMENT = 8;
-    RANDOM_EQUIPMENT = 9;
-    OPPONENT = 10;
-  }
+message Attributes {
+  int32 health = 1;
+  int32 maxPower = 2;
+  int32 defence = 3;
+}
+
+enum ObjectType {
+  EMPTY_CELL = 0;
+  INVISIBLE_CELL = 1;
+  WALL = 2;
+  PLAYER = 3;
+  AGGRESSIVE_MONSTER = 4;
+  COWARD_MONSTER = 5;
+  PASSIVE_MONSTER = 6;
+  SHIELD = 7;
+  USELESS_EQUIPMENT = 8;
+  RANDOM_EQUIPMENT = 9;
+  ONLINE_PLAYER = 10;
 }

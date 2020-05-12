@@ -13,7 +13,8 @@ class Logic(
     private val displayController: DisplayController,
     private val readerController: ReaderController,
     fileToLoadLevel: String? = null,
-    shouldLoadFromSave: Boolean = false
+    shouldLoadFromSave: Boolean = false,
+    private val onlineGame: Boolean = false
 ) {
 
     private companion object {
@@ -74,13 +75,19 @@ class Logic(
                 logicHelper.updateAfterTurn()
             }
             logicHelper.finishEpoch()
-            SaveHandler.saveGame(GameInfo(
-                field,
-                characters.map { it.character.id to it.fieldInfo.isCellVisible }.toMap(),
-                Character.lastCharacterId
-            ))
+            if (!onlineGame) {
+                SaveHandler.saveGame(
+                    GameInfo(
+                        field,
+                        characters.map { it.character.id to it.fieldInfo.isCellVisible }.toMap(),
+                        Character.lastCharacterId
+                    )
+                )
+            }
         }
-        SaveHandler.deleteSave()
+        if (!onlineGame) {
+            SaveHandler.deleteSave()
+        }
     }
 
     fun createPlayer(

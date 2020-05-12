@@ -10,9 +10,9 @@ object MonsterFactory {
     /** Create a monster of random type */
     fun generateMonster(): AbstractMonster {
         val monsters = listOf(
-                FieldObjectType.PASSIVE_MONSTER,
-                FieldObjectType.AGGRESSIVE_MONSTER,
-                FieldObjectType.COWARD_MONSTER
+            FieldObjectType.PASSIVE_MONSTER,
+            FieldObjectType.AGGRESSIVE_MONSTER,
+            FieldObjectType.COWARD_MONSTER
         )
         val monster = monsters[Random.nextInt(monsters.size)]
         return when (monster) {

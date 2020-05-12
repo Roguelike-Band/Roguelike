@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Assertions.*
 import org.mockito.Mockito
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
-import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
+import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.cells.Wall
 import ru.spbau.roguelike.model.field.objects.characters.monsters.PassiveMonster
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
