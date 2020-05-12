@@ -1,9 +1,8 @@
-package ru.spbau.roguelike.model.field.objects.characters.player
+package ru.spbau.roguelike.model.field.objects.characters
 
-import ru.spbau.roguelike.model.field.objects.characters.Attributes
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentListView
 
-class PlayerView(
+class CharacterView(
     val isAlive: Boolean,
     val attributes: Attributes,
     val equipmentList: EquipmentListView

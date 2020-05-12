@@ -7,6 +7,7 @@ import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.characters.Attributes
 import ru.spbau.roguelike.model.field.objects.characters.Character
+import ru.spbau.roguelike.model.field.objects.characters.CharacterView
 
 /** User's character */
 @Serializable
@@ -26,10 +27,10 @@ class Player(
     override val objectType = FieldObjectType.PLAYER
 
     override fun refreshPlayerUI(fieldInfo: FieldInfo) {
-        displayController.refreshGameField(fieldInfo.toDisplayFieldInfo(), toPlayerView())
+        displayController.refreshGameField(fieldInfo.toDisplayFieldInfo(), toCharacterView())
     }
 
-    fun toPlayerView(): PlayerView {
-        return PlayerView(isAlive, attributes, equipmentList.toEquipmentListView())
+    private fun toCharacterView(): CharacterView {
+        return CharacterView(isAlive, attributes, equipmentList.toEquipmentListView())
     }
 }

@@ -1,9 +1,7 @@
 package ru.spbau.roguelike.ui
 
 import ru.spbau.roguelike.model.field.DisplayFieldInfo
-import ru.spbau.roguelike.model.field.objects.characters.player.Player
-import ru.spbau.roguelike.model.field.objects.characters.player.PlayerView
-import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
+import ru.spbau.roguelike.model.field.objects.characters.CharacterView
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentListView
 
 /**
@@ -13,7 +11,7 @@ class UIStatus {
     var equipmentCursor = 0
     var equipmentList: EquipmentListView? = null
     var fieldInfo: DisplayFieldInfo? = null
-    var character: PlayerView? = null
+    var character: CharacterView? = null
 
     /**
      * Checks if cursor points on existing equipment item. If no, rearranges it.

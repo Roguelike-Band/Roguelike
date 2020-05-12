@@ -5,11 +5,8 @@ import com.googlecode.lanterna.TextColor
 import com.googlecode.lanterna.terminal.TerminalResizeListener
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.DisplayFieldInfo
-import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.characters.Attributes
-import ru.spbau.roguelike.model.field.objects.characters.player.Player
-import ru.spbau.roguelike.model.field.objects.characters.player.PlayerView
-import ru.spbau.roguelike.model.field.objects.equipment.EquipmentList
+import ru.spbau.roguelike.model.field.objects.characters.CharacterView
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentListView
 import java.lang.Integer.max
 import java.lang.Integer.min
@@ -42,20 +39,20 @@ class ConsoleUIOutput(private val lanterna: Lanterna, private val status: UIStat
     }
 
     /** Updates field on screen */
-    fun refreshGameField(field: DisplayFieldInfo, player: PlayerView) {
+    fun refreshGameField(field: DisplayFieldInfo, character: CharacterView) {
         if (terminalSize.rows < MIN_TERMINAL_ROWS || terminalSize.columns < MIN_TERMINAL_COLUMNS) {
             return
         }
 
         refreshField(field, getFieldScreenPart())
 
-        if (player.isAlive) {
-            status.character = player
-            status.equipmentList = player.equipmentList
+        if (character.isAlive) {
+            status.character = character
+            status.equipmentList = character.equipmentList
             status.reloadCursor()
             refreshEquipment(status.equipmentList!!, getEquipmentScreenPart())
 
-            val attributes = player.attributes
+            val attributes = character.attributes
             refreshAttributes(attributes, getAttributesScreenPart())
         }
 
