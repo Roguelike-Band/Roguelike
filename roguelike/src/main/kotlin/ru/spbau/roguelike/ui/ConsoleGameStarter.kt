@@ -39,7 +39,7 @@ class ConsoleGameStarter(private val lanterna: Lanterna) {
             return
         }
         logic.gameLoop()
-        lanterna.createMenu(ConsoleGameStarter(lanterna))
+        lanterna.createMenu(ConsoleGameStarter(lanterna), OnlineGameSelection(lanterna))
         lanterna.refreshScreen()
     }
 

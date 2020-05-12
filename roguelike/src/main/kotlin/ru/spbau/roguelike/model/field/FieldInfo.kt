@@ -1,7 +1,7 @@
 package ru.spbau.roguelike.model.field
 
-import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.objects.FieldObject
+import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.cells.InvisibleCell
 
 /** Information about field that is known to character */
@@ -63,5 +63,14 @@ class FieldInfo(
                 }
             }
         }
+    }
+
+    fun toDisplayFieldInfo(): DisplayFieldInfo {
+        val displayArray = Array<Array<FieldObjectType>>(height) { row ->
+            Array(width) { column ->
+                this[Coordinates(row, column)].objectType
+            }
+        }
+        return DisplayFieldInfo(displayArray, currentCoordinates)
     }
 }

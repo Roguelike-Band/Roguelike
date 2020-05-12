@@ -8,7 +8,7 @@ package ru.spbau.roguelike.ui
 class MainMenu(private val lanterna: Lanterna) {
 
     fun start() {
-        lanterna.createMenu(ConsoleGameStarter(lanterna))
+        lanterna.createMenu(ConsoleGameStarter(lanterna), OnlineGameSelection(lanterna))
         lanterna.refreshScreen()
     }
 

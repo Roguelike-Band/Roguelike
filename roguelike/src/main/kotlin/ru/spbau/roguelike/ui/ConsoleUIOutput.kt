@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalSize
 import com.googlecode.lanterna.TextColor
 import com.googlecode.lanterna.terminal.TerminalResizeListener
 import ru.spbau.roguelike.model.field.Coordinates
+import ru.spbau.roguelike.model.field.DisplayFieldInfo
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.characters.Attributes
 import ru.spbau.roguelike.model.field.objects.characters.player.Player
@@ -35,21 +36,19 @@ class ConsoleUIOutput(private val lanterna: Lanterna, private val status: UIStat
         if (status.fieldInfo == null) {
             return
         }
-        refreshGameField(status.fieldInfo!!)
+        refreshGameField(status.fieldInfo!!, status.character!!)
     }
 
     /** Updates field on screen */
-    fun refreshGameField(field: FieldInfo) {
+    fun refreshGameField(field: DisplayFieldInfo, player: Player) {
         if (terminalSize.rows < MIN_TERMINAL_ROWS || terminalSize.columns < MIN_TERMINAL_COLUMNS) {
             return
         }
 
         refreshField(field, getFieldScreenPart())
 
-        val currentCell = field[field.coordinates]
-        if (currentCell is Player) {
-            val player: Player = currentCell
-
+        if (player.isAlive) {
+            status.character = player
             status.equipmentList = player.equipmentList
             status.reloadCursor()
             refreshEquipment(status.equipmentList!!, getEquipmentScreenPart())
@@ -61,12 +60,12 @@ class ConsoleUIOutput(private val lanterna: Lanterna, private val status: UIStat
         lanterna.refreshScreen()
     }
 
-    private fun refreshField(field: FieldInfo, screenPart: ScreenPart) {
+    private fun refreshField(field: DisplayFieldInfo, screenPart: ScreenPart) {
         status.fieldInfo = field
         val fieldShow = getFieldShow(screenPart)
         for (fieldRow in fieldShow.leftRow..fieldShow.rightRow) {
             for (fieldColumn in fieldShow.leftColumn..fieldShow.rightColumn) {
-                val cellType = field[Coordinates(fieldRow, fieldColumn)].objectType
+                val cellType = field[Coordinates(fieldRow, fieldColumn)]
                 lanterna.drawCell(
                         screenPart.leftColumn + fieldColumn - fieldShow.leftColumn,
                         screenPart.leftRow + fieldRow - fieldShow.leftRow,

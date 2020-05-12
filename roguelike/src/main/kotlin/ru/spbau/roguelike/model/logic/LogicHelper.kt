@@ -1,11 +1,9 @@
 package ru.spbau.roguelike.model.logic
 
-import kotlinx.serialization.Serializable
 import ru.spbau.roguelike.model.field.Coordinates
 import ru.spbau.roguelike.model.field.Field
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.MovementExecutor
-import ru.spbau.roguelike.model.field.objects.cells.EmptyCell
 import ru.spbau.roguelike.model.field.objects.characters.monsters.AbstractMonster
 import ru.spbau.roguelike.model.field.objects.characters.monsters.MonsterFactory
 import ru.spbau.roguelike.model.field.objects.equipment.EquipmentGenerator

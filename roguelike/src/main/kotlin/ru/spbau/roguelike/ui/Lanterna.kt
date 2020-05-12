@@ -19,6 +19,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import com.googlecode.lanterna.terminal.Terminal
 import com.googlecode.lanterna.terminal.TerminalResizeListener
 import ru.spbau.roguelike.model.logic.SaveHandler
+import ru.spbau.roguelike.net.client.ActiveGame
 
 /**
  * Wrapper above Lanterna library
@@ -101,7 +102,7 @@ class Lanterna {
     }
 
     /** Creates main menu and blocks control */
-    fun createMenu(gameStarter: ConsoleGameStarter) {
+    fun createMenu(gameStarter: ConsoleGameStarter, onlineGameSelection: OnlineGameSelection) {
         screen.clear()
         val panel = Panel()
         val label = Label("Current field: random")
@@ -127,12 +128,26 @@ class Lanterna {
             textGUI.removeWindow(window)
             gameStarter.start()
         }
+        actionListBox.addItem("Online") {
+            textGUI.removeWindow(window)
+            onlineGameSelection.start()
+        }
 
         panel.addComponent(actionListBox)
         label.addStyle(SGR.BOLD)
         panel.addComponent(label)
 
         textGUI.addWindowAndWait(window)
+    }
+
+    fun showActiveGames(games: List<ActiveGame>, onlineGameSeletion: OnlineGameSelection) {
+        // TODO
+        onlineGameSeletion.onGameSelected(games[0])
+    }
+
+    fun askForIpAndPort(onlineGameSelection: OnlineGameSelection) {
+        // TODO
+        onlineGameSelection.onIpAndPortWritten("127.0.0.1", 4242)
     }
 
     /** Prints error message and opens main menu after OK is clicked */

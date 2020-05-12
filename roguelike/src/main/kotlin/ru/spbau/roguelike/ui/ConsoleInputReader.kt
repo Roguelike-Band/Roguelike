@@ -37,11 +37,11 @@ class ConsoleInputReader(
                     when (input.character) {
                         'a' -> {
                             status.moveCursorLeft()
-                            consoleUIOutput.refreshGameField(status.fieldInfo!!)
+                            consoleUIOutput.refreshGameField(status.fieldInfo!!, status.character!!)
                         }
                         'd' -> {
-                            status.moveCrsorRight()
-                            consoleUIOutput.refreshGameField(status.fieldInfo!!)
+                            status.moveCursorRight()
+                            consoleUIOutput.refreshGameField(status.fieldInfo!!, status.character!!)
                         }
                         'w' -> return PutOnEquipmentCommand(status.equipmentCursor)
                         's' -> return TakeOffEquipmentCommand(status.equipmentCursor)
