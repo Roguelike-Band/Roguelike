@@ -16,7 +16,7 @@ import ru.spbau.roguelike.model.field.objects.characters.Character
  * All equipment items should be created using [Equipment.Builder]
  */
 @Serializable
-class Equipment private constructor(
+class Equipment(
         override val objectType: FieldObjectType,
         val defenceDelta: Int,
         val powerDelta: Int,

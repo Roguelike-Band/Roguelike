@@ -11,5 +11,6 @@ enum class FieldObjectType {
     PASSIVE_MONSTER,
     SHIELD,
     USELESS_EQUIPMENT,
-    RANDOM_EQUIPMENT
+    RANDOM_EQUIPMENT,
+    OPPONENT
 }

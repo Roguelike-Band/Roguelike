@@ -20,6 +20,7 @@ object CellDrawer {
             FieldObjectType.SHIELD -> DrawingParameters('s', TextColor.ANSI.BLACK, TextColor.ANSI.RED)
             FieldObjectType.USELESS_EQUIPMENT -> TODO()
             FieldObjectType.RANDOM_EQUIPMENT -> DrawingParameters('r', TextColor.ANSI.BLACK, TextColor.ANSI.RED)
+            FieldObjectType.OPPONENT -> DrawingParameters('O', TextColor.ANSI.YELLOW, TextColor.ANSI.RED)
         }
     }
 }

@@ -20,9 +20,11 @@ class OnlineGameSelection(private val lanterna: Lanterna) {
 
     fun onGameSelected(game: ActiveGame) {
         val gameConnection = beforeGameConnection.connectToGame(game)
+        OnlineGameStarter(lanterna, gameConnection).start()
     }
 
     fun onCreateNewGame(name: String) {
         val gameConnection = beforeGameConnection.createNewGame(name)
+        OnlineGameStarter(lanterna, gameConnection).start()
     }
 }

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package ru.spbau.roguelike.net.grpc;
+
+option java_multiple_files = true;
+
+service ServerConnection {
+  rpc game(stream Command) returns (stream FieldInfoOrYourTurn);
+}
+
+message Command {
+  oneof Commands {
+    MoveCommand moveCommand = 1;
+    PutOnEquipmentCommand putOnEquipmentCommand = 2;
+    TakeOffEquipmentCommand takeOffEquipmentCommand = 3;
+  }
+
+  message MoveCommand {
+    Coordinates stepTo = 1;
+
+    message Coordinates {
+      int32 row = 1;
+      int32 column = 2;
+    }
+  }
+
+  message PutOnEquipmentCommand {
+    int32 index = 1;
+  }
+
+  message TakeOffEquipmentCommand {
+    int32 index = 1;
+  }
+}
+
+message FieldInfoOrYourTurn {
+  oneof Responses {
+    DisplayFieldInfo fieldInfo = 1;
+    google.protobuf.Empty yourTurn = 2;
+  }
+
+  message DisplayFieldInfo {
+    FieldInfo fieldInfo = 1;
+    Player player = 2;
+
+    message FieldInfo {
+      repeated ArrayRow field = 1;
+
+      message ArrayRow {
+        repeated ObjectType object = 1;
+
+        enum ObjectType {
+            EMPTY_CELL = 0;
+            INVISIBLE_CELL = 1;
+            WALL = 2;
+            PLAYER = 3;
+            AGGRESSIVE_MONSTER = 4;
+            COWARD_MONSTER = 5;
+            PASSIVE_MONSTER = 6;
+            SHIELD = 7;
+            USELESS_EQUIPMENT = 8;
+            RANDOM_EQUIPMENT = 9;
+            OPPONENT = 10;
+        }
+      }
+    }
+
+    message Player {
+      // TODO
+    }
+  }
+}

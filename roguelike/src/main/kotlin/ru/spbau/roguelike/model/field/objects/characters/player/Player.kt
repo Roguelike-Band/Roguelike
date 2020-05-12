@@ -26,6 +26,10 @@ class Player(
     override val objectType = FieldObjectType.PLAYER
 
     override fun refreshPlayerUI(fieldInfo: FieldInfo) {
-        displayController.refreshGameField(fieldInfo.toDisplayFieldInfo(), this)
+        displayController.refreshGameField(fieldInfo.toDisplayFieldInfo(), toPlayerView())
+    }
+
+    fun toPlayerView(): PlayerView {
+        return PlayerView(isAlive, attributes, equipmentList.toEquipmentListView())
     }
 }

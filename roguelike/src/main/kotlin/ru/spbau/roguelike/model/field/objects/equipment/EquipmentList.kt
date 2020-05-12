@@ -6,10 +6,11 @@ import ru.spbau.roguelike.model.field.objects.characters.Attributes
 /**
  * List of character's equipment.
  *
- * For each item we store if it
+ * For each item we store if it is put on
  */
 @Serializable
 class EquipmentList {
+
     private val allEquipment = arrayListOf<Equipment>()
     private val isPutOn = arrayListOf<Boolean>()
     val size: Int
@@ -63,6 +64,10 @@ class EquipmentList {
         if (attributes.removeEquipment(allEquipment[index])) {
             isPutOn[index] = false
         }
+    }
+
+    fun toEquipmentListView(): EquipmentListView {
+        return EquipmentListView(allEquipment, isPutOn)
     }
 }
 
