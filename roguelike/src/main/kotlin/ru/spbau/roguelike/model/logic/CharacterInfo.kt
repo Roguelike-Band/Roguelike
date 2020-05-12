@@ -6,9 +6,9 @@ import ru.spbau.roguelike.model.field.objects.characters.Character
 
 /** All information about game that logic needs */
 data class CharacterInfo(
-        val isRealCharacter: Boolean,
-        val fieldInfo: FieldInfo,
-        val character: Character,
-        val movementExecutor: MovementExecutor,
-        val turnLogic: TurnLogic
+    val isRealCharacter: Boolean,
+    val fieldInfo: FieldInfo,
+    val character: Character,
+    val movementExecutor: MovementExecutor,
+    val turnLogic: TurnLogic
 )

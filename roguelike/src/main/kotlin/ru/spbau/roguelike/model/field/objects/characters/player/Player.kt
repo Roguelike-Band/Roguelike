@@ -1,18 +1,12 @@
 package ru.spbau.roguelike.model.field.objects.characters.player
 
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.SerialDescriptor
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
-import ru.spbau.roguelike.controller.ConsoleDisplayController
 import ru.spbau.roguelike.controller.DisplayController
 import ru.spbau.roguelike.controller.ReaderController
 import ru.spbau.roguelike.model.field.FieldInfo
 import ru.spbau.roguelike.model.field.objects.FieldObjectType
 import ru.spbau.roguelike.model.field.objects.characters.Attributes
 import ru.spbau.roguelike.model.field.objects.characters.Character
-import ru.spbau.roguelike.model.field.objects.characters.ConfusedStrategy
-import ru.spbau.roguelike.model.field.objects.characters.monsters.strategies.AggressiveStrategy
 
 /** User's character */
 @Serializable

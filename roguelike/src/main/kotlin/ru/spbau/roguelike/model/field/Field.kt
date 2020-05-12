@@ -7,7 +7,7 @@ import kotlin.random.Random
 
 /** Grid with all information about game */
 @Serializable
-class Field(
+class iField(
     private val field: Array<Array<FieldObject>>
 ) {
     val height = field.size
