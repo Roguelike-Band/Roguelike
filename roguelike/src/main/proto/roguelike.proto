@@ -8,6 +8,30 @@ option java_multiple_files = true;
 
 service ServerConnection {
   rpc game(stream Command) returns (stream FieldInfoOrYourTurn);
+  rpc connectToGame(ActiveGameId) returns (google.protobuf.Empty);
+  rpc createNewGame(GameName) returns (google.protobuf.Empty);
+  rpc getActiveGames(google.protobuf.Empty) returns (ActiveGamesList);
+}
+
+message ActiveGamesList {
+  repeated ActiveGame activeGames = 1;
+}
+
+message ActiveGameId {
+  int32 id = 1;
+}
+
+message GameName {
+  string name = 1;
+}
+
+message ActiveGame {
+  int32 id = 1;
+  string name = 2;
+
+  message ActiveGameId {
+    int32 id = 1;
+  }
 }
 
 message Command {
@@ -43,32 +67,52 @@ message FieldInfoOrYourTurn {
 
   message DisplayFieldInfo {
     FieldInfo fieldInfo = 1;
-    Player player = 2;
+    PlayerView player = 2;
 
     message FieldInfo {
       repeated ArrayRow field = 1;
 
       message ArrayRow {
-        repeated ObjectType object = 1;
-
-        enum ObjectType {
-            EMPTY_CELL = 0;
-            INVISIBLE_CELL = 1;
-            WALL = 2;
-            PLAYER = 3;
-            AGGRESSIVE_MONSTER = 4;
-            COWARD_MONSTER = 5;
-            PASSIVE_MONSTER = 6;
-            SHIELD = 7;
-            USELESS_EQUIPMENT = 8;
-            RANDOM_EQUIPMENT = 9;
-            OPPONENT = 10;
-        }
+        repeated ObjectType objectTypes = 1;
       }
     }
 
-    message Player {
-      // TODO
+    message PlayerView {
+      bool isAlive = 1;
+      EquipmentListView equipmentList = 2;
+      Attributes attributes = 3;
+
+      message EquipmentListView {
+        repeated Equipment allEquipment = 1;
+        repeated bool isPutOn = 2;
+
+        message Equipment {
+          ObjectType objectType = 1;
+          int32 defenceDelta = 2;
+          int32 powerDelta = 3;
+          int32 healthDelta = 4;
+        }
+      }
+
+      message Attributes {
+        int32 health = 1;
+        int32 maxPower = 2;
+        int32 defence = 3;
+      }
     }
+  }
+
+  enum ObjectType {
+    EMPTY_CELL = 0;
+    INVISIBLE_CELL = 1;
+    WALL = 2;
+    PLAYER = 3;
+    AGGRESSIVE_MONSTER = 4;
+    COWARD_MONSTER = 5;
+    PASSIVE_MONSTER = 6;
+    SHIELD = 7;
+    USELESS_EQUIPMENT = 8;
+    RANDOM_EQUIPMENT = 9;
+    OPPONENT = 10;
   }
 }
