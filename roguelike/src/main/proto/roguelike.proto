@@ -13,13 +13,13 @@ service ServerConnection {
 
 message Request {
   oneof Requests {
-    Command command = 1;
+    ProtoCommand command = 1;
     CreateNewGame createNewGame = 2;
     ConnectToActiveGame connectToActiveGame = 3;
   }
 }
 
-message Command {
+message ProtoCommand {
   oneof Commands {
     MoveCommand moveCommand = 1;
     PutOnEquipmentCommand putOnEquipmentCommand = 2;
@@ -63,7 +63,7 @@ message ActiveGame {
 
 message FieldInfoOrYourTurn {
   oneof Responses {
-    DisplayFieldInfo fieldInfo = 1;
+    ProtoDisplayFieldInfo fieldInfo = 1;
     YourTurn yourTurn = 2;
   }
 }
@@ -71,12 +71,12 @@ message FieldInfoOrYourTurn {
 message YourTurn {
 }
 
-message DisplayFieldInfo {
-  FieldInfo fieldInfo = 1;
+message ProtoDisplayFieldInfo {
+  ProtoFieldInfo fieldInfo = 1;
   PlayerView player = 2;
 }
 
-message FieldInfo {
+message ProtoFieldInfo {
   repeated ArrayRow field = 1;
 }
 
@@ -86,23 +86,23 @@ message ArrayRow {
 
 message PlayerView {
   bool isAlive = 1;
-  EquipmentListView equipmentList = 2;
-  Attributes attributes = 3;
+  ProtoEquipmentListView equipmentList = 2;
+  ProtoAttributes attributes = 3;
 }
 
-message EquipmentListView {
-  repeated Equipment allEquipment = 1;
+message ProtoEquipmentListView {
+  repeated ProtoEquipment allEquipment = 1;
   repeated bool isPutOn = 2;
 }
 
-message Equipment {
+message ProtoEquipment {
   ObjectType objectType = 1;
   int32 defenceDelta = 2;
   int32 powerDelta = 3;
   int32 healthDelta = 4;
 }
 
-message Attributes {
+message ProtoAttributes {
   int32 health = 1;
   int32 maxPower = 2;
   int32 defence = 3;

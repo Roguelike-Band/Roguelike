@@ -15,17 +15,18 @@ import ru.spbau.roguelike.net.server.Server
 
 @ExperimentalCoroutinesApi
 class RoguelikeGRPC(private val server: Server) : ServerConnectionGrpcKt.ServerConnectionCoroutineImplBase() {
-    @Suppress("UNREACHABLE_CODE")
+
     override fun game(requests: Flow<Request>): Flow<FieldInfoOrYourTurn> {
 
+        val player = PlayerRoutine(server)
 
-        val collector: GameRequestsCollector = TODO("create collector")
+        val collector = GameRequestsCollector(player)
 
         GlobalScope.launch {
             collector.emitAll(requests)
         }
 
-        TODO()
+        return player.start()
     }
 
     override suspend fun getActiveGames(request: Empty): ActiveGamesList {
@@ -41,7 +42,7 @@ class RoguelikeGRPC(private val server: Server) : ServerConnectionGrpcKt.ServerC
             .build()
     }
     
-    private class GameRequestsCollector(private val gameFlow: Flow<FieldInfoOrYourTurn>) : FlowCollector<Request> {
+    private class GameRequestsCollector(private val playerRoutine: PlayerRoutine) : FlowCollector<Request> {
         private var isFirstValue = false
         private var gameId: Int = 0
         private var playerId = 0
@@ -63,46 +64,28 @@ class RoguelikeGRPC(private val server: Server) : ServerConnectionGrpcKt.ServerC
                 value.hasConnectToActiveGame() -> {
                     val connect = value.connectToActiveGame!!
                     val gameId = connect.gameId
-                    TODO("connect user to active game")
+                    playerRoutine.asyncConnectToGame(gameId)
                 }
                 value.hasCreateNewGame() -> {
                     val connect = value.createNewGame!!
-                    val gameName = connect.name!!
-                    TODO("create new game")
+                    val gameName = connect.gameName
+                    playerRoutine.asyncCreateNewGame(gameName)
                 }
                 else -> {
-                    TODO("close connection")
+                    playerRoutine.asyncCloseConnection()
                 }
             }
-            @Suppress("UNREACHABLE_CODE")
             isFirstValue = false
         }
 
-        private suspend fun emitGameValue(value: Request) {
-            when {
-                value.hasCommand() -> {
-                    val command = value.command!!
-                    val gameCommand = when {
-                        command.hasMoveCommand() -> {
-                            val moveCommand = command.moveCommand!!
-                            MoveCommand(Coordinates(moveCommand.stepTo.row, moveCommand.stepTo.column))
-                        }
-                        command.hasPutOnEquipmentCommand() -> {
-                            val putOnEquipmentCommand = command.putOnEquipmentCommand!!
-                            PutOnEquipmentCommand(putOnEquipmentCommand.index)
-                        }
-                        command.hasTakeOffEquipmentCommand() -> {
-                            val takeOffEquipmentCommand = command.takeOffEquipmentCommand!!
-                            TakeOffEquipmentCommand(takeOffEquipmentCommand.index)
-                        }
-                        else -> throw Error("Unexpected command")
-                    }
-                }
-                else -> {
-                    TODO("close connection")
-                }
+        private suspend fun emitGameValue(value: Request) = when {
+            value.hasCommand() -> {
+                val gameCommand = ProtobufConverter.convertCommand(value.command!!)
+                playerRoutine.asyncReceiveUserCommand(gameCommand)
+            }
+            else -> {
+                playerRoutine.asyncCloseConnection()
             }
         }
-
     }
 }
